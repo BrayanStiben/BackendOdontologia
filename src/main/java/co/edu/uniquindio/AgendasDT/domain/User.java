@@ -6,25 +6,36 @@ import lombok.Getter;
 import lombok.Setter;
 
 
-import java.util.Date;
+import java.time.LocalDate;
 
 @Getter
 @Setter
-@Table (name = "User")
+@Table(name = "\"User\"")
 @Entity
 public class User {
 
     //Atributos
     @Id
-    private Long ID;
-    private String Name;
-    private String LastName;
-    private Date BirthDate;
-    private String Email;
-    private Long Phone;
+    @Column(name = "ID")
+    private Long id;
+    @Column(name = "Name", nullable = false, length = 100)
+    private String name;
+    @Column(name = "LastName", nullable = false, length = 100)
+    private String lastName;
+    @Column(name = "BirthDate", nullable = false)
+    private LocalDate birthDate;
+    @Column(name = "Email", nullable = false, length = 254)
+    private String email;
+    @Column(name = "Phone", nullable = false, length = 20)
+    private String phone;
 
     @Enumerated(EnumType.STRING)
-    private UserRol Rol;
+    @Column(name = "Rol", nullable = false)
+    private UserRol rol;
+
+    @Version
+    @Column(name = "Version", nullable = false)
+    private Long version;
 
     //Constructor vacio
     public User() {
