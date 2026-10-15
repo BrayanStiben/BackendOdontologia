@@ -15,6 +15,20 @@ import java.util.Map;
 
 @RestControllerAdvice
 public class ApiExceptionHandler {
+    @ExceptionHandler(MeetingNotFoundException.class)
+    public ProblemDetail meetingNotFound(MeetingNotFoundException ex) {
+        return ProblemDetail.forStatusAndDetail(HttpStatus.NOT_FOUND, ex.getMessage());
+    }
+
+    @ExceptionHandler(InvalidMeetingException.class)
+    public ProblemDetail invalidMeeting(InvalidMeetingException ex) {
+        return ProblemDetail.forStatusAndDetail(HttpStatus.BAD_REQUEST, ex.getMessage());
+    }
+
+    @ExceptionHandler(MeetingConflictException.class)
+    public ProblemDetail meetingConflict(MeetingConflictException ex) {
+        return ProblemDetail.forStatusAndDetail(HttpStatus.CONFLICT, ex.getMessage());
+    }
     @ExceptionHandler(UserNotFoundException.class)
     public ProblemDetail notFound(UserNotFoundException ex) {
         return ProblemDetail.forStatusAndDetail(HttpStatus.NOT_FOUND, ex.getMessage());
@@ -28,7 +42,7 @@ public class ApiExceptionHandler {
     @ExceptionHandler(OptimisticLockingFailureException.class)
     public ProblemDetail concurrentEdit() {
         return ProblemDetail.forStatusAndDetail(HttpStatus.CONFLICT,
-                "El usuario cambió. Consulte sus datos antes de volver a editar.");
+                "El registro cambió. Consulte sus datos antes de volver a editar.");
     }
 
     @ExceptionHandler(DataIntegrityViolationException.class)

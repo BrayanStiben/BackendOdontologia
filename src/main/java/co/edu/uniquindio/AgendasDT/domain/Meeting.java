@@ -5,32 +5,49 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.util.Date;
+import java.time.Instant;
 import java.util.UUID;
 
 @Getter
 @Setter
-@Table (name = "Meeting")
+@Table(name = "meeting")
 @Entity
 public class Meeting {
 
     //Atributos
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private UUID ID;
+    @GeneratedValue(strategy = GenerationType.UUID)
+    @Column(name = "ID")
+    private UUID id;
 
-    @OneToOne
-    @JoinColumn(name = "PatientID")
-    private User PatientID;
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "PatientID", nullable = false, updatable = false)
+    private User patient;
 
-    @OneToOne
-    @JoinColumn(name = "DoctorID")
-    private User DoctorID;
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "DoctorID", nullable = false)
+    private User doctor;
 
-    private Date Date;
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "chair_id", nullable = false)
+    private DentalChair chair;
+
+    @Column(name = "Date", nullable = false)
+    private Instant startsAt;
+
+    @Column(name = "ends_at", nullable = false)
+    private Instant endsAt;
+
+    @Column(nullable = false, length = 500)
+    private String reason;
 
     @Enumerated(EnumType.STRING)
-    private MeetingStatus Status;
+    @Column(name = "Status", nullable = false)
+    private MeetingStatus status;
+
+    @Version
+    @Column(nullable = false)
+    private Long version;
 
     //Constructor vacio
     public Meeting() {
