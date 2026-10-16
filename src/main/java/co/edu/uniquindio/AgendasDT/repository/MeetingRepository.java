@@ -20,4 +20,14 @@ public interface MeetingRepository extends JpaRepository<Meeting, UUID> {
                      @Param("startsAt") Instant startsAt, @Param("endsAt") Instant endsAt,
                      @Param("patientId") Long patientId, @Param("doctorId") Long doctorId,
                      @Param("chairId") Long chairId);
+
+    long countByStartsAtBetween(Instant start, Instant end);
+
+    long countByStartsAtBetweenAndStatus(Instant start, Instant end, MeetingStatus status);
+
+    java.util.List<Meeting> findByStartsAtBetweenOrderByStartsAtAsc(Instant start, Instant end);
+
+    java.util.List<Meeting> findByDoctorIdAndStartsAtBetween(Long doctorId, Instant start, Instant end);
+
+    java.util.List<Meeting> findByPatientIdOrderByStartsAtDesc(Long patientId);
 }

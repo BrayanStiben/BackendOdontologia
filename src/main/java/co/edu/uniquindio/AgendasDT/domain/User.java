@@ -37,6 +37,21 @@ public class User {
     @Column(name = "Version", nullable = false)
     private Long version;
 
+    @Column(name = "password")
+    private String password;
+
+    @Column(name = "tp", length = 50)
+    private String tp;
+
+    @Column(name = "clinic_name", length = 150)
+    private String clinicName;
+
+    @Column(name = "specialty", length = 100)
+    private String specialty;
+
+    @Column(name = "active", nullable = false)
+    private boolean active = true;
+
     //Constructor vacio
     public User() {
 
