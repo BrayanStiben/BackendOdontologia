@@ -1,0 +1,446 @@
+<div class="hc-container">
+
+  <!-- Header Superior según Mockup 5 y 7 -->
+  <header class="hc-header">
+    <div class="header-brand-wrap">
+      <a routerLink="/dashboard" class="brand-link">
+        <span class="brand-main">Doc-Tooth</span>
+        <span class="brand-bar">|</span>
+      </a>
+      <span class="brand-subtitle">Historia Clínica Digital</span>
+    </div>
+
+    <!-- Buscador de paciente por nombre o cédula -->
+    <div class="search-wrap">
+      <svg class="search-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="11" cy="11" r="7" stroke="currentColor" stroke-width="2"/>
+        <path d="M16.5 16.5L21 21" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+      </svg>
+      <input
+        type="text"
+        [(ngModel)]="searchQuery"
+        (keydown.enter)="buscarOtroPaciente()"
+        placeholder="Buscar por Nombre o Cédula..."
+        class="hc-search-input"
+      >
+    </div>
+
+    <div class="doctor-badge">
+      <span>Dr. Alex González | Odontología</span>
+    </div>
+  </header>
+
+  <!-- Pestañas de Navegación del Historial (Mockup 5, 6, 7, 8) -->
+  <nav class="hc-tabs-nav">
+    <button
+      type="button"
+      class="tab-btn"
+      [class.active-tab]="activeTab === 'evolucion'"
+      (click)="cambiarPestana('evolucion')">
+      Evolución Clínica
+    </button>
+
+    <button
+      type="button"
+      class="tab-btn"
+      [class.active-tab]="activeTab === 'odontograma'"
+      (click)="cambiarPestana('odontograma')">
+      Odontograma
+    </button>
+
+    <button
+      type="button"
+      class="tab-btn"
+      [class.active-tab]="activeTab === 'evaluacion'"
+      (click)="cambiarPestana('evaluacion')">
+      Anamnesis / Antecedentes / Examen
+    </button>
+
+    <button
+      type="button"
+      class="tab-btn"
+      (click)="irAFacturacion()">
+      Facturación y Cobro
+    </button>
+  </nav>
+
+  <!-- ========================================================================= -->
+  <!-- VISTA 1: EVOLUCIÓN CLÍNICA (PÁGINA 5 DEL MOCKUP) -->
+  <!-- ========================================================================= -->
+  @if (activeTab === 'evolucion') {
+    <div class="hc-layout-grid">
+
+      <!-- Columna Izquierda: Ficha del Paciente -->
+      <aside class="patient-sidebar-card">
+        <div class="patient-header">
+          <h2 class="patient-name">{{ profile ? (profile.name + ' ' + profile.lastName) : 'María García Pérez' }}</h2>
+          <div class="patient-meta">
+            <p><strong>CC:</strong> 1.094.821.402</p>
+            <p><strong>Edad:</strong> 28 años (14/05/1998)</p>
+            <p><strong>Tel:</strong> +57 312 456 7890</p>
+            <p><strong>RH:</strong> O+</p>
+          </div>
+        </div>
+
+        <div class="alerts-box">
+          <h3 class="alerts-title">ALERTAS MÉDICAS:</h3>
+          <ul class="alerts-list">
+            <li>• Alergia a Penicilina</li>
+            <li>• Hipertensión leve</li>
+          </ul>
+        </div>
+
+        <div class="last-visit-box">
+          <span class="visit-label">Última Visita:</span>
+          <span class="visit-date">15 de Agosto, 2026</span>
+        </div>
+
+        <div class="patient-actions">
+          <button type="button" class="btn-sidebar-action" (click)="showEditPatientModal = true">
+            Editar Paciente
+          </button>
+          <button type="button" class="btn-sidebar-action" (click)="abrirRxModal()">
+            Ver Radiografías / RX
+          </button>
+          <button type="button" class="btn-sidebar-action" (click)="exportarPdf()">
+            Exportar HC (PDF)
+          </button>
+        </div>
+      </aside>
+
+      <!-- Columna Derecha: Agregar Evolución + Historial de Registros -->
+      <main class="evolution-main-content">
+
+        @if (evolutionSuccessMsg) {
+          <div class="success-banner">{{ evolutionSuccessMsg }}</div>
+        }
+
+        <!-- Sección Superior: Agregar Nueva Evolución -->
+        <section class="new-evolution-panel">
+          <h3 class="panel-title">+ Agregar Nueva Evolución / Procedimiento</h3>
+
+          <div class="form-row-evolution">
+            <div class="input-item piece-item">
+              <label>Diente / Zona:</label>
+              <input type="text" [(ngModel)]="dienteZona" class="form-control" placeholder="#16 (Molar)">
+            </div>
+
+            <div class="input-item proc-item">
+              <label>Procedimiento:</label>
+              <select [(ngModel)]="procedimiento" class="form-control">
+                <option value="Resina de Fotocurado">Resina de Fotocurado</option>
+                <option value="Limpieza Profunda + Detartraje">Limpieza Profunda + Detartraje</option>
+                <option value="Valoración Inicial + Periodontal">Valoración Inicial + Periodontal</option>
+                <option value="Profilaxis General y Aplicación de Flúor">Profilaxis General y Aplicación de Flúor</option>
+                <option value="Obturación en Amalgama">Obturación en Amalgama</option>
+                <option value="Exodoncia Simple">Exodoncia Simple</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-row-desc">
+            <label>Descripción:</label>
+            <textarea
+              [(ngModel)]="descripcionEvolucion"
+              rows="3"
+              class="form-control-textarea"
+              placeholder="Detalle clínico del procedimiento realizado...">
+            </textarea>
+          </div>
+
+          <div class="evolution-actions">
+            <button
+              type="button"
+              class="btn-save-record"
+              [disabled]="savingEvolution"
+              (click)="guardarEvolucion()">
+              {{ savingEvolution ? 'Guardando...' : 'Guardar Registro' }}
+            </button>
+            <button type="button" class="btn-attach-rx" (click)="abrirRxModal()">
+              Adjuntar RX
+            </button>
+          </div>
+        </section>
+
+        <!-- Sección Inferior: Historial de Registros Clínicos -->
+        <section class="history-records-panel">
+          <h3 class="panel-title">Historial de Registros Clínicos</h3>
+
+          <div class="records-table-wrap">
+            <table class="hc-table">
+              <thead>
+                <tr>
+                  <th>Fecha</th>
+                  <th>Pieza</th>
+                  <th>Diagnóstico / Procedimiento</th>
+                  <th>Doctor</th>
+                  <th>Estado</th>
+                </tr>
+              </thead>
+              <tbody>
+                @if (profile && profile.records.length > 0) {
+                  @for (rec of profile.records; track rec.id) {
+                    <tr>
+                      <td class="cell-date">{{ rec.recordDate }}</td>
+                      <td class="cell-piece"><strong>{{ rec.toothPiece }}</strong></td>
+                      <td class="cell-proc">
+                        <span class="proc-name">{{ rec.procedureName }}</span>
+                        @if (rec.observations) {
+                          <span class="proc-obs">{{ rec.observations }}</span>
+                        }
+                      </td>
+                      <td class="cell-doctor">{{ rec.doctorName }}</td>
+                      <td class="cell-status">
+                        <span class="badge-signed">✓ Firmado</span>
+                      </td>
+                    </tr>
+                  }
+                } @else {
+                  <tr>
+                    <td colspan="5" class="empty-cell">No hay registros clínicos aún.</td>
+                  </tr>
+                }
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+      </main>
+
+    </div>
+  }
+
+  <!-- ========================================================================= -->
+  <!-- VISTA 2: EVALUACIÓN / ANAMNESIS / EXAMEN (PÁGINA 7 DEL MOCKUP) -->
+  <!-- ========================================================================= -->
+  @if (activeTab === 'evaluacion') {
+    <div class="evaluation-container">
+
+      @if (evaluationSuccessMsg) {
+        <div class="success-banner">{{ evaluationSuccessMsg }}</div>
+      }
+
+      <div class="evaluation-card">
+
+        <!-- 1. Motivo de Consulta y Examen Físico General -->
+        <fieldset class="eval-fieldset">
+          <legend class="eval-legend">1. Motivo de Consulta y Examen Físico General</legend>
+
+          <div class="eval-field-group">
+            <label>Motivo de Consulta:</label>
+            <input type="text" [(ngModel)]="motivoConsulta" class="eval-input" placeholder="Dolor al masticar en zona posterior derecha">
+          </div>
+
+          <div class="eval-field-group">
+            <label>Enfermedad Actual:</label>
+            <textarea
+              [(ngModel)]="enfermedadActual"
+              rows="2"
+              class="eval-textarea"
+              placeholder="Paciente refiere molestia desde hace 3 días, punzante...">
+            </textarea>
+          </div>
+
+          <div class="vitals-section">
+            <span class="vitals-title">Signos Vitales:</span>
+            <div class="vitals-grid">
+              <div class="vital-item">
+                <label>PA:</label>
+                <input type="text" [(ngModel)]="pa" class="vital-input" placeholder="120/80">
+              </div>
+              <div class="vital-item">
+                <label>FC:</label>
+                <input type="text" [(ngModel)]="fc" class="vital-input" placeholder="72 bpm">
+              </div>
+              <div class="vital-item">
+                <label>Temp:</label>
+                <input type="text" [(ngModel)]="temp" class="vital-input" placeholder="36.5 C">
+              </div>
+              <div class="vital-item">
+                <label>Peso:</label>
+                <input type="text" [(ngModel)]="peso" class="vital-input" placeholder="62 kg">
+              </div>
+            </div>
+          </div>
+        </fieldset>
+
+        <!-- 2. Examen Estomatológico (Extra/Intraoral) -->
+        <fieldset class="eval-fieldset">
+          <legend class="eval-legend">2. Examen Estomatológico (Extra/Intraoral)</legend>
+
+          <div class="eval-two-col">
+            <div class="eval-field-group">
+              <label>ATM / Articulación:</label>
+              <select [(ngModel)]="atmArticulacion" class="eval-select">
+                <option value="Normal sin chasquidos ni dolor">Normal sin chasquidos ni dolor</option>
+                <option value="Chasquido bilateral sin dolor">Chasquido bilateral sin dolor</option>
+                <option value="Limitación de apertura">Limitación de apertura</option>
+              </select>
+            </div>
+
+            <div class="eval-field-group">
+              <label>Tejidos Blandos:</label>
+              <select [(ngModel)]="tejidosBlandos" class="eval-select">
+                <option value="Gingivitis marginal leve en zona molar">Gingivitis marginal leve en zona molar</option>
+                <option value="Sin lesiones aparentes / Sano">Sin lesiones aparentes / Sano</option>
+                <option value="Hiperplasia gingival">Hiperplasia gingival</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="eval-two-col">
+            <div class="eval-field-group">
+              <label>Higiene Oral:</label>
+              <select [(ngModel)]="higieneOral" class="eval-select">
+                <option value="Regular">Regular</option>
+                <option value="Buena">Buena</option>
+                <option value="Deficiente">Deficiente</option>
+              </select>
+            </div>
+
+            <div class="eval-field-group">
+              <label>Índice Placa:</label>
+              <input type="text" [(ngModel)]="indicePlaca" class="eval-input" placeholder="28%">
+            </div>
+          </div>
+
+          <div class="checkboxes-group">
+            <label class="eval-checkbox">
+              <input type="checkbox" [(ngModel)]="calculoDental">
+              <span>Presencia de cálculo dental supra y subgingival</span>
+            </label>
+
+            <label class="eval-checkbox">
+              <input type="checkbox" [(ngModel)]="empaquetamiento">
+              <span>Presencia de empaquetamiento alimenticio</span>
+            </label>
+          </div>
+        </fieldset>
+
+        <!-- 3. Diagnóstico Odontológico y Pronóstico -->
+        <fieldset class="eval-fieldset">
+          <legend class="eval-legend">3. Diagnóstico Odontológico y Pronóstico</legend>
+
+          <div class="eval-two-col">
+            <div class="eval-field-group">
+              <label>Diagnóstico Principal:</label>
+              <select [(ngModel)]="diagnosticoPrincipal" class="eval-select">
+                <option value="K02.1 - Caries de la dentina (Pieza #16)">K02.1 - Caries de la dentina (Pieza #16)</option>
+                <option value="K02.0 - Caries limitada al esmalte">K02.0 - Caries limitada al esmalte</option>
+                <option value="K04.0 - Pulpitis irreversible">K04.0 - Pulpitis irreversible</option>
+              </select>
+            </div>
+
+            <div class="eval-field-group">
+              <label>Pronóstico:</label>
+              <select [(ngModel)]="pronostico" class="eval-select">
+                <option value="Favorable">Favorable</option>
+                <option value="Reservado">Reservado</option>
+                <option value="Desfavorable">Desfavorable</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="eval-field-group">
+            <label>Diagnóstico Secundario:</label>
+            <select [(ngModel)]="diagnosticoSecundario" class="eval-select">
+              <option value="K05.1 - Gingivitis crónica">K05.1 - Gingivitis crónica</option>
+              <option value="K05.3 - Periodontitis crónica">K05.3 - Periodontitis crónica</option>
+              <option value="K03.0 - Atrición dental excesiva">K03.0 - Atrición dental excesiva</option>
+            </select>
+          </div>
+
+          <div class="eval-field-group">
+            <label>Plan Sugerido:</label>
+            <textarea
+              [(ngModel)]="planSugerido"
+              rows="4"
+              class="eval-textarea"
+              placeholder="1. Detartraje ultrasónico...">
+            </textarea>
+          </div>
+        </fieldset>
+
+        <!-- Botones de Acción de Evaluación -->
+        <div class="eval-bottom-actions">
+          <button
+            type="button"
+            class="btn-save-eval"
+            [disabled]="savingEvaluation"
+            (click)="guardarEvaluacion()">
+            {{ savingEvaluation ? 'Guardando...' : 'Guardar y Firmar Evaluación' }}
+          </button>
+          <button
+            type="button"
+            class="btn-cancel-eval"
+            (click)="cancelarEvaluacion()">
+            Cancelar / Volver
+          </button>
+        </div>
+
+      </div>
+
+    </div>
+  }
+
+  <!-- ========================================================================= -->
+  <!-- VISTA 3: ODONTOGRAMA (RESERVADO / EXCLUIDO SEGÚN INSTRUCCIÓN) -->
+  <!-- ========================================================================= -->
+  @if (activeTab === 'odontograma') {
+    <div class="odontograma-placeholder-card">
+      <div class="placeholder-icon">🦷</div>
+      <h2>Módulo de Odontograma Clínico</h2>
+      <p class="placeholder-desc">
+        La Página 6 (Odontograma Interactivo) ha sido excluida de esta fase de implementación conforme a los requerimientos técnicos indicados.
+      </p>
+      <div class="placeholder-actions">
+        <button type="button" class="tab-btn active-tab" (click)="cambiarPestana('evolucion')">
+          ← Volver a Evolución Clínica
+        </button>
+      </div>
+    </div>
+  }
+
+  <!-- Modal Radiografías / RX -->
+  @if (showRxModal) {
+    <div class="modal-backdrop" (click)="cerrarRxModal()">
+      <div class="rx-modal-card" (click)="$event.stopPropagation()">
+        <div class="rx-modal-header">
+          <h3>Visor de Radiografías Digitales - María García Pérez</h3>
+          <button type="button" class="btn-close-modal" (click)="cerrarRxModal()">×</button>
+        </div>
+        <div class="rx-image-box">
+          <div class="rx-placeholder-graphic">
+            <div class="rx-teeth-icon">🦴🦷</div>
+            <p><strong>Radiografía Periapical Digital - Pieza #16</strong></p>
+            <p class="rx-meta">Fecha de toma: 15/08/2026 | Técnico: Dr. Alex González</p>
+            <p class="rx-diagnosis">Hallazgo: Zona radiolúcida oclusal sin compromiso pulpar.</p>
+          </div>
+        </div>
+        <div class="rx-modal-footer">
+          <button type="button" class="btn-sidebar-action" (click)="cerrarRxModal()">Cerrar Visor</button>
+        </div>
+      </div>
+    </div>
+  }
+
+  <!-- Modal Editar Paciente -->
+  @if (showEditPatientModal) {
+    <div class="modal-backdrop" (click)="showEditPatientModal = false">
+      <div class="rx-modal-card" (click)="$event.stopPropagation()">
+        <div class="rx-modal-header">
+          <h3>Editar Datos del Paciente</h3>
+          <button type="button" class="btn-close-modal" (click)="showEditPatientModal = false">×</button>
+        </div>
+        <div style="padding: 15px 0;">
+          <p>Los datos demográficos y de contacto se sincronizan con la base central.</p>
+        </div>
+        <div class="rx-modal-footer">
+          <button type="button" class="btn-save-record" (click)="showEditPatientModal = false">Guardar Cambios</button>
+        </div>
+      </div>
+    </div>
+  }
+
+</div>
+

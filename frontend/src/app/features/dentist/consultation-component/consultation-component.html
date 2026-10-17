@@ -1,0 +1,283 @@
+
+<section class="consultas-page">
+
+  <!-- Encabezado -->
+  <header class="page-header">
+    <div>
+      <h1>Consultas clínicas</h1>
+      <p>
+        Consulta la información y el historial clínico de tus pacientes.
+      </p>
+    </div>
+  </header>
+
+  <!-- Buscador -->
+  <section class="search-card">
+    <div class="section-heading">
+      <div class="heading-icon">
+        <svg viewBox="0 0 24 24" fill="none"
+             xmlns="http://www.w3.org/2000/svg">
+          <circle cx="10.8" cy="10.8" r="6.8"
+                  stroke="currentColor" stroke-width="1.8"/>
+          <path d="M16 16L21 21"
+                stroke="currentColor" stroke-width="1.8"
+                stroke-linecap="round"/>
+        </svg>
+      </div>
+
+      <div>
+        <h2>Buscar paciente</h2>
+        <p>
+          Ingresa el documento para consultar su historial clínico.
+        </p>
+      </div>
+    </div>
+
+    <form class="search-form" (ngSubmit)="buscarPaciente()">
+      <div class="document-field">
+        <label for="documentoPaciente">
+          Número de documento
+        </label>
+
+        <input
+          id="documentoPaciente"
+          name="documentoPaciente"
+          type="text"
+          [(ngModel)]="documentoBusqueda"
+          placeholder="Ej. 1234567890"
+          autocomplete="off"
+          required
+        />
+      </div>
+
+      <button
+        type="submit"
+        class="search-button"
+        [disabled]="cargando">
+
+        <svg viewBox="0 0 24 24" fill="none"
+             xmlns="http://www.w3.org/2000/svg">
+          <circle cx="10.8" cy="10.8" r="6.8"
+                  stroke="currentColor" stroke-width="1.8"/>
+          <path d="M16 16L21 21"
+                stroke="currentColor" stroke-width="1.8"
+                stroke-linecap="round"/>
+        </svg>
+
+        {{ cargando ? 'Buscando...' : 'Consultar historial' }}
+      </button>
+
+      @if (documentoBusqueda) {
+        <button
+          type="button"
+          class="clear-button"
+          (click)="limpiarBusqueda()">
+          Limpiar
+        </button>
+      }
+    </form>
+
+    @if (mensajeError) {
+      <div class="feedback-message feedback-error" role="alert">
+        <svg viewBox="0 0 24 24" fill="none"
+             xmlns="http://www.w3.org/2000/svg">
+          <circle cx="12" cy="12" r="9"
+                  stroke="currentColor" stroke-width="1.7"/>
+          <path d="M12 8V12M12 16H12.01"
+                stroke="currentColor" stroke-width="1.8"
+                stroke-linecap="round"/>
+        </svg>
+
+        {{ mensajeError }}
+      </div>
+    }
+  </section>
+
+  <!-- Información y registros del paciente -->
+  @if (paciente) {
+
+    <section class="patient-card">
+      <div class="patient-avatar">
+        <svg viewBox="0 0 24 24" fill="none"
+             xmlns="http://www.w3.org/2000/svg">
+          <circle cx="12" cy="8" r="4"
+                  stroke="currentColor" stroke-width="1.7"/>
+          <path d="M4 21C4 16.6 7.6 13 12 13C16.4 13 20 16.6 20 21"
+                stroke="currentColor" stroke-width="1.7"
+                stroke-linecap="round"/>
+        </svg>
+      </div>
+
+      <div class="patient-information">
+        <span class="patient-label">PACIENTE CONSULTADO</span>
+        <h2>{{ paciente.nombre }}</h2>
+
+        <div class="patient-metadata">
+          <span>
+            <strong>Documento:</strong>
+            {{ paciente.documento }}
+          </span>
+
+          @if (paciente.correo) {
+            <span>
+              <strong>Correo:</strong>
+              {{ paciente.correo }}
+            </span>
+          }
+
+          @if (paciente.phone) {
+            <span>
+              <strong>Teléfono:</strong>
+              {{ paciente.phone }}
+            </span>
+          }
+        </div>
+      </div>
+
+      <div class="record-counter">
+        <strong>{{ historialClinico.length }}</strong>
+        <span>
+          {{ historialClinico.length === 1
+          ? 'Registro clínico'
+          : 'Registros clínicos' }}
+        </span>
+      </div>
+    </section>
+
+    <section class="history-section">
+      <div class="history-heading">
+        <div>
+          <h2>Historial clínico</h2>
+          <p>
+            Registros de consultas, diagnósticos y tratamientos.
+          </p>
+        </div>
+
+        @if (historialClinico.length > 0) {
+          <span class="page-indicator">
+            Página {{ paginaActual }} de {{ totalPaginas }}
+          </span>
+        }
+      </div>
+
+      @if (registrosPaginados.length > 0) {
+
+        <div class="history-list">
+          @for (registro of registrosPaginados; track registro.historyId) {
+            <app-history-card-component
+              [fecha]="registro.fecha"
+              [diagnostico]="registro.diagnostico"
+              [tratamiento]="registro.tratamiento"
+              [observaciones]="registro.observaciones">
+            </app-history-card-component>
+          }
+        </div>
+
+        <!-- Paginación -->
+        @if (totalPaginas > 1) {
+          <nav class="pagination" aria-label="Paginación del historial">
+
+            <button
+              type="button"
+              class="page-button page-arrow"
+              [disabled]="paginaActual === 1"
+              aria-label="Página anterior"
+              (click)="paginaAnterior()">
+
+              <svg viewBox="0 0 24 24" fill="none"
+                   xmlns="http://www.w3.org/2000/svg">
+                <path d="M15 18L9 12L15 6"
+                      stroke="currentColor" stroke-width="1.8"
+                      stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </button>
+
+            @for (pagina of paginas; track pagina) {
+              <button
+                type="button"
+                class="page-button"
+                [class.active]="paginaActual === pagina"
+                [attr.aria-current]="
+                  paginaActual === pagina ? 'page' : null
+                "
+                (click)="cambiarPagina(pagina)">
+                {{ pagina }}
+              </button>
+            }
+
+            <button
+              type="button"
+              class="page-button page-arrow"
+              [disabled]="paginaActual === totalPaginas"
+              aria-label="Página siguiente"
+              (click)="paginaSiguiente()">
+
+              <svg viewBox="0 0 24 24" fill="none"
+                   xmlns="http://www.w3.org/2000/svg">
+                <path d="M9 18L15 12L9 6"
+                      stroke="currentColor" stroke-width="1.8"
+                      stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </button>
+
+          </nav>
+        }
+
+      } @else {
+
+        <div class="empty-history">
+          <div class="empty-history-icon">
+            <svg viewBox="0 0 24 24" fill="none"
+                 xmlns="http://www.w3.org/2000/svg">
+              <path d="M6 3H15L20 8V20C20 20.6 19.6 21 19 21H6C5.4 21 5 20.6 5 20V4C5 3.4 5.4 3 6 3Z"
+                    stroke="currentColor" stroke-width="1.6"
+                    stroke-linejoin="round"/>
+              <path d="M14 3V9H20M8 13H16M8 17H14"
+                    stroke="currentColor" stroke-width="1.6"
+                    stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </div>
+
+          <h3>No hay registros clínicos</h3>
+          <p>
+            El paciente no tiene registros en el historial clínico
+            disponibles para mostrar.
+          </p>
+        </div>
+
+      }
+    </section>
+
+  } @else if (busquedaRealizada && !cargando) {
+
+    <section class="empty-patient">
+      <h2>No se encontró información del paciente</h2>
+      <p>
+        Verifica el documento ingresado e inténtalo nuevamente.
+      </p>
+    </section>
+
+  } @else if (!mensajeError) {
+
+    <section class="initial-state">
+      <div class="initial-icon">
+        <svg viewBox="0 0 24 24" fill="none"
+             xmlns="http://www.w3.org/2000/svg">
+          <circle cx="10.8" cy="10.8" r="6.8"
+                  stroke="currentColor" stroke-width="1.7"/>
+          <path d="M16 16L21 21"
+                stroke="currentColor" stroke-width="1.7"
+                stroke-linecap="round"/>
+        </svg>
+      </div>
+
+      <h2>Consulta el historial de un paciente</h2>
+      <p>
+        Introduce su número de documento en el buscador
+        para acceder a su información clínica.
+      </p>
+    </section>
+
+  }
+
+</section>

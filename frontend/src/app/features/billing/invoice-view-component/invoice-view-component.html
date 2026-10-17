@@ -1,0 +1,176 @@
+<div class="invoice-view-page">
+
+  <!-- Header Superior según Mockup 9 -->
+  <header class="invoice-topbar">
+    <div class="brand-wrap">
+      <a routerLink="/dashboard" class="brand-link">
+        <span class="brand-title">Doc-Tooth</span>
+        <span class="brand-bar">|</span>
+      </a>
+      <span class="page-title">Vista de Factura</span>
+    </div>
+
+    <!-- Botones de Acción Superiores -->
+    <div class="topbar-actions">
+      <button type="button" class="btn-topbar-action" (click)="descargarPdf()">
+        Descargar PDF
+      </button>
+      <button type="button" class="btn-topbar-action" (click)="imprimir()">
+        Imprimir
+      </button>
+      <button type="button" class="btn-topbar-action" (click)="enviarPorCorreo()">
+        Enviar por Correo
+      </button>
+    </div>
+  </header>
+
+  @if (emailSentMessage) {
+    <div class="email-sent-banner">{{ emailSentMessage }}</div>
+  }
+
+  <!-- Contenedor del Documento / Factura Electrónica -->
+  <main class="invoice-sheet">
+
+    <!-- Encabezado de Factura: Clínica a la izquierda, Recuadro DIAN a la derecha -->
+    <section class="invoice-sheet-header">
+      <div class="clinic-info">
+        <h1 class="clinic-name">CLINICA</h1>
+        <p class="clinic-meta"><strong>NIT:</strong> 900.123.456-7 | Régimen Común</p>
+        <p class="clinic-meta">Cra. 15 #12-34, Armenia, Quindío</p>
+        <p class="clinic-meta">Tel: (606) 741-0000 | contacto@doc-tooth.com</p>
+      </div>
+
+      <div class="dian-box">
+        <h2 class="dian-title">FACTURA ELECTRÓNICA DE VENTA</h2>
+        <div class="dian-data">
+          <p><strong>Nro:</strong> {{ bill ? bill.billNumber : 'FE-2026-0492' }}</p>
+          <p><strong>Fecha Emisión:</strong> {{ bill ? bill.issueDate : '09/09/2026 - 08:30 AM' }}</p>
+          <p class="dian-res">Res. DIAN Nº: 187600012345 de 2026</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Datos del Adquirente / Paciente -->
+    <fieldset class="client-fieldset">
+      <legend class="client-legend">Datos del Adquirente / Paciente</legend>
+
+      <div class="client-grid">
+        <div class="client-col">
+          <p><strong>Cliente:</strong> {{ bill ? bill.patientName : 'María García Pérez' }}</p>
+          <p><strong>CC/NIT:</strong> {{ bill ? bill.nit : '1094.821.402' }}</p>
+        </div>
+
+        <div class="client-col">
+          <p><strong>Dirección:</strong> {{ bill ? bill.address : 'Cra 15 #22-10, Armenia' }}</p>
+          <p><strong>Forma de Pago:</strong> {{ bill ? bill.paymentMethod : 'Contado - Tarjeta Crédito' }}</p>
+        </div>
+      </div>
+    </fieldset>
+
+    <!-- Tabla de Conceptos / Servicios -->
+    <section class="items-table-section">
+      <table class="graphic-table">
+        <thead>
+          <tr>
+            <th>Item</th>
+            <th>Código</th>
+            <th>Descripción del Servicio / Procedimiento</th>
+            <th>Cant</th>
+            <th>Vr. Unitario</th>
+            <th>Desc.</th>
+            <th>Total</th>
+          </tr>
+        </thead>
+        <tbody>
+          @if (bill && bill.items.length > 0) {
+            @for (item of bill.items; track item.item) {
+              <tr>
+                <td class="text-center">{{ item.item }}</td>
+                <td>{{ item.code }}</td>
+                <td>{{ item.description }}</td>
+                <td class="text-center">{{ item.quantity }}</td>
+                <td class="text-right">${{ item.unitPrice | number:'1.0-0' }}</td>
+                <td class="text-right">${{ item.discountAmount | number:'1.0-0' }}</td>
+                <td class="text-right font-bold">${{ item.subtotal | number:'1.0-0' }}</td>
+              </tr>
+            }
+          }
+        </tbody>
+      </table>
+    </section>
+
+    <!-- Sección de Totales, Letras, CUFE y Observaciones -->
+    <section class="sheet-totals-section">
+
+      <!-- Columna Izquierda: Valor en letras, CUFE, Observaciones -->
+      <div class="totals-left">
+        <p class="words-line">
+          <strong>Valor en letras:</strong>
+          <span>{{ bill ? bill.totalInWords : 'DOSCIENTOS SESENTA Y SEIS MIL PESOS M/CTE.' }}</span>
+        </p>
+
+        <p class="cufe-line">
+          <strong>CUFE:</strong>
+          <span class="cufe-hash">{{ bill ? bill.cufe : 'a1b2c3d4e5f67890123456789abcdef0123456789a' }}</span>
+        </p>
+
+        <p class="obs-line">
+          <strong>Observaciones:</strong>
+          <span>{{ bill ? bill.observations : 'Tratamiento realizado en sesión única. Incluye garantía de 6 meses sobre resina.' }}</span>
+        </p>
+      </div>
+
+      <!-- Columna Derecha: Cuadro de Totales -->
+      <div class="totals-right-box">
+        <div class="tot-row">
+          <span>Subtotal:</span>
+          <span>${{ bill ? (bill.subtotal | number:'1.0-0') : '280.000' }}</span>
+        </div>
+
+        <div class="tot-row disc-row">
+          <span>Descuento:</span>
+          <span>-${{ bill ? (bill.discount | number:'1.0-0') : '14.000' }}</span>
+        </div>
+
+        <div class="tot-row">
+          <span>IVA (0%):</span>
+          <span>$0</span>
+        </div>
+
+        <div class="tot-row paid-row">
+          <span class="paid-label">TOTAL PAGADO:</span>
+          <span class="paid-val">${{ bill ? (bill.totalCost | number:'1.0-0') : '266.000' }}</span>
+        </div>
+      </div>
+
+    </section>
+
+    <!-- Pie de Factura con Código QR DIAN -->
+    <footer class="sheet-footer">
+      <div class="qr-box">
+        <div class="qr-mock-graphic">
+          <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="qr-icon">
+            <rect x="2" y="2" width="8" height="8" stroke="currentColor" stroke-width="2"/>
+            <rect x="14" y="2" width="8" height="8" stroke="currentColor" stroke-width="2"/>
+            <rect x="2" y="14" width="8" height="8" stroke="currentColor" stroke-width="2"/>
+            <rect x="5" y="5" width="2" height="2" fill="currentColor"/>
+            <rect x="17" y="5" width="2" height="2" fill="currentColor"/>
+            <rect x="5" y="17" width="2" height="2" fill="currentColor"/>
+            <path d="M14 14H18V18H14V14Z" fill="currentColor"/>
+            <path d="M18 18H22V22H18V18Z" fill="currentColor"/>
+            <path d="M14 20H16V22H14V20Z" fill="currentColor"/>
+          </svg>
+        </div>
+        <span class="qr-text">Código QR DIAN</span>
+      </div>
+
+      <div class="legal-notice">
+        <p>Documento digital generado por Doc-Tooth ERP. Representación gráfica de la factura electrónica.</p>
+        <p class="legal-sub">Autorización de numeración según formulario oficial de la DIAN.</p>
+      </div>
+    </footer>
+
+  </main>
+
+</div>
+

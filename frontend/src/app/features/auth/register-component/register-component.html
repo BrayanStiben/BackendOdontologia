@@ -1,0 +1,211 @@
+<main class="register-page">
+
+  <!-- Elementos decorativos del fondo -->
+  <div class="background-decoration decoration-one"></div>
+  <div class="background-decoration decoration-two"></div>
+
+  <header class="header">
+    <app-navbar-component/>
+  </header>
+
+  <!-- Tarjeta de registro -->
+  <section class="register-card">
+
+    <!-- Encabezado -->
+    <header class="register-header">
+      <h1>Crear Cuenta en Doc-Tooth</h1>
+    </header>
+
+    <!-- Separador -->
+    <div class="separator"></div>
+
+    <!-- Formulario -->
+    <form class="register-form" (submit)="onSubmit($event)">
+
+      @if (errorMessage) {
+        <div class="error-banner">{{ errorMessage }}</div>
+      }
+
+      @if (successMessage) {
+        <div class="success-banner">{{ successMessage }}</div>
+      }
+
+      <!-- FILA 1: Nombres y Documento -->
+      <div class="form-row">
+        <div class="form-group">
+          <label for="fullName">Nombres y Apellidos:</label>
+          <input
+            type="text"
+            id="fullName"
+            name="fullName"
+            [(ngModel)]="fullName"
+            placeholder="Alex Gonzalez"
+            autocomplete="name"
+            required
+          >
+        </div>
+
+        <div class="form-group">
+          <label for="document">Documento / Identificacion:</label>
+          <input
+            type="text"
+            id="document"
+            name="document"
+            [(ngModel)]="document"
+            placeholder="1.094.821.402"
+            required
+          >
+        </div>
+      </div>
+
+      <!-- FILA 2: Correo y Teléfono -->
+      <div class="form-row">
+        <div class="form-group">
+          <label for="email">Correo Electronico:</label>
+          <input
+            type="email"
+            id="email"
+            name="email"
+            [(ngModel)]="email"
+            placeholder="dr.gonzalez@doc-tooth.com"
+            autocomplete="email"
+            required
+          >
+        </div>
+
+        <div class="form-group">
+          <label for="phone">Telefono / Celular:</label>
+          <input
+            type="tel"
+            id="phone"
+            name="phone"
+            [(ngModel)]="phone"
+            placeholder="+57 300 123 4567"
+            autocomplete="tel"
+            required
+          >
+        </div>
+      </div>
+
+      <!-- FILA 3: Rol en la Clínica y Tarjeta Profesional -->
+      <div class="form-row">
+        <div class="form-group">
+          <label for="role">Rol en la Clinica:</label>
+          <select
+            id="role"
+            name="role"
+            [(ngModel)]="role"
+            class="custom-select"
+          >
+            <option value="Odontologo / Especialista">Odontologo / Especialista</option>
+            <option value="Recepcionista">Recepcionista</option>
+            <option value="Administrador">Administrador</option>
+            <option value="Paciente">Paciente</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="professionalCard">Tarjeta Profesional (TP):</label>
+          <input
+            type="text"
+            id="professionalCard"
+            name="professionalCard"
+            [(ngModel)]="professionalCard"
+            placeholder="OD-89421-TP"
+          >
+        </div>
+      </div>
+
+      <!-- FILA 4: Nombre de la Clínica / Consultorio -->
+      <div class="form-group full-width">
+        <label for="clinicName">Nombre de la Clinica / Consultorio:</label>
+        <input
+          type="text"
+          id="clinicName"
+          name="clinicName"
+          [(ngModel)]="clinicName"
+          placeholder="Clinica Dental OdontoSmile"
+        >
+      </div>
+
+      <!-- FILA 5: Contraseñas -->
+      <div class="form-row">
+        <div class="form-group">
+          <label for="password">Contrasena:</label>
+          <input
+            type="password"
+            id="password"
+            name="password"
+            [(ngModel)]="password"
+            placeholder="••••••••••••"
+            autocomplete="new-password"
+            required
+          >
+        </div>
+
+        <div class="form-group">
+          <label for="confirmPassword">Confirmar Contrasena:</label>
+          <input
+            type="password"
+            id="confirmPassword"
+            name="confirmPassword"
+            [(ngModel)]="confirmPassword"
+            placeholder="••••••••••••"
+            autocomplete="new-password"
+            required
+          >
+        </div>
+      </div>
+
+      <!-- Autorizaciones -->
+      <div class="agreements">
+        <label class="agreement">
+          <input
+            type="checkbox"
+            id="terms"
+            name="terms"
+            [(ngModel)]="acceptTerms"
+            required
+          >
+          <span>Acepto Terminos de Servicio y Politicas de Privacidad</span>
+        </label>
+
+        <label class="agreement">
+          <input
+            type="checkbox"
+            id="dataTreatment"
+            name="dataTreatment"
+            [(ngModel)]="acceptHabeasData"
+            required
+          >
+          <span>Autorizo el tratamiento de datos personales (Habeas Data)</span>
+        </label>
+      </div>
+
+      <!-- Botón Completar Registro -->
+      <button
+        type="submit"
+        class="register-button"
+        [disabled]="isLoading"
+      >
+        @if (isLoading) {
+          Completando registro...
+        } @else {
+          Completar Registro
+        }
+      </button>
+
+    </form>
+
+    <!-- Enlace Iniciar Sesión -->
+    <div class="login-section">
+      <div class="separator"></div>
+      <p>¿Ya tienes una cuenta?</p>
+      <a routerLink="/login" class="login-link">
+        Inicia Sesion
+      </a>
+    </div>
+
+  </section>
+
+</main>

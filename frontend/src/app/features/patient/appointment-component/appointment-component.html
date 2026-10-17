@@ -1,0 +1,258 @@
+<section class="booking-page">
+
+  <!-- Header específico del mockup 4 -->
+  <header class="booking-header">
+    <div class="booking-brand">
+      <span class="brand-title">Doc-Tooth</span>
+      <span class="brand-sub">| Citas</span>
+    </div>
+    <nav class="booking-nav">
+      <a routerLink="/" class="nav-link">Inicio</a>
+      <span class="nav-separator">|</span>
+      <a routerLink="/patient-dashboard/home" class="nav-link">Mis Citas</a>
+    </nav>
+  </header>
+
+  <!-- Título principal -->
+  <div class="booking-intro">
+    <h1>Reserva tu Cita Odontológica 24/7</h1>
+    <p>Completa los siguientes pasos para agendar tu consulta en menos de 2 minutos</p>
+  </div>
+
+  @if (errorMessage) {
+    <div class="error-banner">{{ errorMessage }}</div>
+  }
+
+  <!-- Layout de 2 columnas: Pasos a la izquierda y Resumen a la derecha -->
+  <div class="booking-grid">
+
+    <!-- Columna Izquierda: Pasos 1, 2 y 3 -->
+    <div class="steps-column">
+
+      <!-- PASO 1: Especialidad y Profesional -->
+      <fieldset class="step-card">
+        <legend class="step-legend">1. Especialidad y Profesional</legend>
+
+        <div class="step-row">
+          <div class="field-box">
+            <label for="specialtySelect">Especialidad:</label>
+            <select
+              id="specialtySelect"
+              [(ngModel)]="especialidadSeleccionada"
+              (change)="onEspecialidadChange()"
+              class="form-select"
+            >
+              @for (spec of specialties; track spec) {
+                <option [value]="spec">{{ spec }}</option>
+              }
+            </select>
+          </div>
+
+          <div class="field-box">
+            <label for="doctorSelect">Profesional:</label>
+            <select
+              id="doctorSelect"
+              [(ngModel)]="doctorSeleccionadoId"
+              (change)="cargarHorarios()"
+              class="form-select"
+            >
+              @for (doc of doctors; track doc.id) {
+                <option [value]="doc.id">Dr. {{ doc.name }} {{ doc.lastName }}</option>
+              }
+            </select>
+          </div>
+        </div>
+      </fieldset>
+
+      <!-- PASO 2: Fecha y Horario Disponible -->
+      <fieldset class="step-card">
+        <legend class="step-legend">2. Fecha y Horario Disponible</legend>
+
+        <div class="calendar-and-slots-layout">
+
+          <!-- Mini Calendario -->
+          <div class="mini-calendar">
+            <div class="calendar-header">
+              <button type="button" class="month-nav-btn" (click)="mesAnterior()">&lt;</button>
+              <span class="month-title">{{ nombreMesActual }}</span>
+              <button type="button" class="month-nav-btn" (click)="mesSiguiente()">&gt;</button>
+            </div>
+
+            <div class="weekdays-row">
+              <span>S</span><span>M</span><span>T</span><span>W</span><span>T</span><span>F</span><span>S</span>
+            </div>
+
+            <div class="days-grid">
+              @for (dia of diasCalendario; track $index) {
+                @if (dia.perteneceAlMes) {
+                  <button
+                    type="button"
+                    class="day-btn"
+                    [class.selected-day]="esFechaSeleccionada(dia.date)"
+                    (click)="seleccionarFecha(dia.date)">
+                    {{ dia.number }}
+                  </button>
+                } @else {
+                  <span class="empty-day"></span>
+                }
+              }
+            </div>
+          </div>
+
+          <!-- Horarios Disponibles e Info Box -->
+          <div class="slots-container">
+            <div class="slots-title">Horarios disponibles para la fecha:</div>
+
+            <div class="slots-grid">
+              @for (hora of horariosDisponibles; track hora) {
+                <button
+                  type="button"
+                  class="slot-btn"
+                  [class.active-slot]="horaSeleccionada === hora"
+                  (click)="seleccionarHora(hora)">
+                  {{ hora }}
+                </button>
+              }
+            </div>
+
+            <div class="clinic-notice-box">
+              <p>⏱ <strong>Duración:</strong> 45 minutos aprox.</p>
+              <p>📍 <strong>Sede:</strong> Central - Consultorio 20</p>
+              <p class="notice-arrival">&gt; Por favor llegar 10 minutos antes &lt;</p>
+            </div>
+          </div>
+
+        </div>
+      </fieldset>
+
+      <!-- PASO 3: Datos del Paciente -->
+      <fieldset class="step-card">
+        <legend class="step-legend">3. Datos del Paciente</legend>
+
+        <div class="step-row">
+          <div class="field-box">
+            <label for="patientName">Nombre Completo:</label>
+            <input
+              type="text"
+              id="patientName"
+              [(ngModel)]="nombreCompleto"
+              placeholder="María García Pérez"
+              class="form-input"
+            >
+          </div>
+
+          <div class="field-box">
+            <label for="patientDoc">Número de Documento (ID):</label>
+            <input
+              type="text"
+              id="patientDoc"
+              [(ngModel)]="numeroDocumento"
+              placeholder="1094821402"
+              class="form-input"
+            >
+          </div>
+        </div>
+
+        <div class="step-row" style="margin-top: 14px;">
+          <div class="field-box">
+            <label for="patientPhone">Teléfono / WhatsApp:</label>
+            <input
+              type="tel"
+              id="patientPhone"
+              [(ngModel)]="telefono"
+              placeholder="+57 312 456 7890"
+              class="form-input"
+            >
+          </div>
+
+          <div class="field-box">
+            <label for="patientEmail">Correo Electrónico:</label>
+            <input
+              type="email"
+              id="patientEmail"
+              [(ngModel)]="email"
+              placeholder="maria.garcia@email.com"
+              class="form-input"
+            >
+          </div>
+        </div>
+
+        <div class="whatsapp-option">
+          <label class="checkbox-label">
+            <input
+              type="checkbox"
+              [(ngModel)]="notificacionesWhatsApp"
+            >
+            <span>Deseo recibir confirmación y recordatorios automáticos por WhatsApp</span>
+          </label>
+        </div>
+      </fieldset>
+
+    </div>
+
+    <!-- Columna Derecha: Resumen de Cita -->
+    <aside class="summary-column">
+      <div class="summary-panel">
+        <h2 class="summary-heading">Resumen de Cita</h2>
+
+        <div class="summary-details">
+          <div class="summary-item">
+            <span class="detail-label">&gt; Especialidad:</span>
+            <span class="detail-value">{{ especialidadSeleccionada }}</span>
+          </div>
+
+          <div class="summary-item">
+            <span class="detail-label">&gt; Odontólogo:</span>
+            <span class="detail-value">{{ nombreDoctorSeleccionado }}</span>
+          </div>
+
+          <div class="summary-item">
+            <span class="detail-label">&gt; Fecha:</span>
+            <span class="detail-value">{{ fechaFormateada }}</span>
+          </div>
+
+          <div class="summary-item">
+            <span class="detail-label">&gt; Hora:</span>
+            <span class="detail-value">{{ horaSeleccionada }}</span>
+          </div>
+
+          <div class="summary-price-box">
+            <span class="price-val">$50.000 COP</span>
+          </div>
+        </div>
+
+        <button
+          type="button"
+          class="btn-confirm-booking"
+          [disabled]="bookingInProgress"
+          (click)="confirmarCita()">
+          {{ bookingInProgress ? 'Confirmando...' : 'Confirmar Cita Odontológica' }}
+        </button>
+
+        <div class="security-disclaimer">
+          <p class="disclaimer-title">&gt; Reserva Segura</p>
+          <p class="disclaimer-text">
+            &gt; Al hacer clic en confirmar, recibirás un mensaje de validación con el código de tu cita.
+          </p>
+        </div>
+      </div>
+    </aside>
+
+  </div>
+
+  <!-- Modal de confirmación exitosa -->
+  @if (bookingSuccess) {
+    <div class="booking-modal-backdrop">
+      <div class="booking-modal">
+        <div class="modal-icon">✅</div>
+        <h3>¡Cita Odontológica Confirmada!</h3>
+        <p class="modal-code">Código: <strong>{{ bookingSuccess.confirmationCode }}</strong></p>
+        <p>Tu cita ha sido agendada con éxito para <strong>{{ fechaFormateada }}</strong> a las <strong>{{ horaSeleccionada }}</strong>.</p>
+        <p>Profesional: <strong>{{ bookingSuccess.doctorName }}</strong> ({{ bookingSuccess.chairName }})</p>
+        <p class="modal-sub">Se ha enviado la confirmación a tu correo y WhatsApp.</p>
+        <button type="button" class="btn-modal-close" (click)="cerrarModalExito()">Aceptar</button>
+      </div>
+    </div>
+  }
+
+</section>

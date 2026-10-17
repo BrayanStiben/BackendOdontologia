@@ -1,0 +1,506 @@
+/* ========================================= */
+/* CONTENEDOR GENERAL */
+/* ========================================= */
+
+.home-container {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+
+  padding: 40px;
+
+  display: grid;
+  grid-template-columns: minmax(0, 1.5fr) minmax(320px, 0.9fr);
+  gap: 28px;
+
+  box-sizing: border-box;
+}
+
+
+/* ========================================= */
+/* TARJETAS */
+/* ========================================= */
+
+.appointment-card,
+.personal-card {
+  background: #ffffff;
+
+  border: 1px solid #dceaf2;
+  border-radius: 20px;
+
+  box-shadow: 0 15px 35px rgba(58, 104, 130, 0.08);
+
+  overflow: hidden;
+}
+
+
+/* ========================================= */
+/* HEADER DE LAS TARJETAS */
+/* ========================================= */
+
+.card-header {
+  display: flex;
+  align-items: center;
+
+  padding: 28px 28px 24px;
+
+  border-bottom: 1px solid #e6eef3;
+
+  position: relative;
+}
+
+
+.header-icon {
+  width: 54px;
+  height: 54px;
+
+  min-width: 54px;
+
+  border-radius: 15px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  margin-right: 17px;
+
+  background: #6f9fc2;
+  color: white;
+
+  box-shadow: 0 8px 18px rgba(77, 126, 159, 0.18);
+}
+
+
+.header-icon svg {
+  width: 27px;
+  height: 27px;
+}
+
+
+.header-text {
+  min-width: 0;
+}
+
+
+.header-text h2 {
+  margin: 0;
+
+  color: #315d78;
+
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 24px;
+  font-weight: 700;
+}
+
+
+.header-text p {
+  margin: 5px 0 0;
+
+  color: #7090a5;
+
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 14px;
+}
+
+
+/* ========================================= */
+/* BOTÓN REFRESCAR */
+/* ========================================= */
+
+.refresh-button {
+  margin-left: auto;
+
+  width: 40px;
+  height: 40px;
+
+  border: none;
+  border-radius: 10px;
+
+  background: #edf5f9;
+  color: #5483a3;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  cursor: pointer;
+
+  transition:
+    background 0.2s ease,
+    color 0.2s ease,
+    transform 0.2s ease;
+}
+
+
+.refresh-button:hover {
+  background: #dcecf5;
+  color: #3f7194;
+
+  transform: rotate(15deg);
+}
+
+
+.refresh-button svg {
+  width: 21px;
+  height: 21px;
+}
+
+
+/* ========================================= */
+/* CONTENIDO DE LA CITA */
+/* ========================================= */
+
+.appointment-content {
+  padding: 28px;
+}
+
+
+.appointment-main {
+  display: flex;
+  flex-direction: column;
+  gap: 21px;
+}
+
+
+.appointment-field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+
+.appointment-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
+
+
+.field-label {
+  color: #6d8da2;
+
+  font-size: 12px;
+  font-weight: 700;
+}
+
+
+.field-value {
+  color: #315d78;
+
+  font-size: 15px;
+  font-weight: 500;
+}
+
+
+/* ========================================= */
+/* ESTADO DE LA CITA */
+/* ========================================= */
+
+.appointment-status {
+  width: fit-content;
+
+  padding: 6px 12px;
+
+  border-radius: 20px;
+
+  background: #e5f3ec;
+  color: #39745a;
+
+  font-size: 12px;
+  font-weight: 700;
+}
+
+
+/* ========================================= */
+/* ACCIONES CITA */
+/* ========================================= */
+
+.appointment-actions {
+  display: flex;
+  justify-content: flex-end;
+
+  margin-top: 30px;
+
+  padding-top: 20px;
+
+  border-top: 1px solid #e6eef3;
+}
+
+
+.cancel-button {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+
+  padding: 11px 17px;
+
+  border: 1px solid #e0a5a5;
+  border-radius: 9px;
+
+  background: #fff7f7;
+  color: #bd6868;
+
+  font-family: inherit;
+  font-size: 13px;
+  font-weight: 600;
+
+  cursor: pointer;
+
+  transition: all 0.2s ease;
+}
+
+
+.cancel-button:hover {
+  background: #f9e5e5;
+  border-color: #d68a8a;
+  color: #a95252;
+}
+
+
+.cancel-button svg {
+  width: 16px;
+  height: 16px;
+}
+
+
+/* ========================================= */
+/* SIN CITA */
+/* ========================================= */
+
+.no-appointment {
+  min-height: 280px;
+
+  padding: 35px;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  text-align: center;
+}
+
+
+.empty-icon {
+  width: 58px;
+  height: 58px;
+
+  margin-bottom: 18px;
+
+  border-radius: 50%;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  background: #edf5f9;
+  color: #6d99b5;
+}
+
+
+.empty-icon svg {
+  width: 27px;
+  height: 27px;
+}
+
+
+.no-appointment p {
+  margin: 0;
+
+  color: #6e899b;
+
+  font-size: 14px;
+}
+
+
+/* ========================================= */
+/* INFORMACIÓN PERSONAL */
+/* ========================================= */
+
+.personal-content {
+  padding: 26px 28px 8px;
+
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+
+.input-group {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+}
+
+
+.input-group label {
+  color: #55778e;
+
+  font-size: 12px;
+  font-weight: 700;
+}
+
+
+.input-container {
+  position: relative;
+}
+
+
+.input-container input {
+  width: 100%;
+  height: 45px;
+
+  box-sizing: border-box;
+
+  padding: 0 13px;
+
+  border: 1px solid #d6e6ef;
+  border-radius: 9px;
+
+  background: #f5fafd;
+
+  color: #315d78;
+
+  font-family: inherit;
+  font-size: 13px;
+
+  outline: none;
+}
+
+
+.input-container input[readonly] {
+  color: #668397;
+
+  cursor: default;
+}
+
+
+.input-container.editable input {
+  padding-right: 42px;
+
+  background: #ffffff;
+
+  border-color: #8fc4e5;
+}
+
+
+.input-container.editable input:focus {
+  border-color: #5798c2;
+
+  box-shadow: 0 0 0 3px rgba(87, 152, 194, 0.10);
+}
+
+
+/* ========================================= */
+/* ICONO EDITAR */
+/* ========================================= */
+
+.edit-icon {
+  position: absolute;
+
+  right: 13px;
+  top: 50%;
+
+  transform: translateY(-50%);
+
+  color: #5989aa;
+
+  pointer-events: none;
+}
+
+
+.edit-icon svg {
+  width: 16px;
+  height: 16px;
+}
+
+
+/* ========================================= */
+/* BOTÓN ACTUALIZAR */
+/* ========================================= */
+
+.personal-actions {
+  padding: 22px 28px 28px;
+
+  display: flex;
+  justify-content: flex-end;
+
+  border-top: 1px solid #e6eef3;
+
+  margin-top: 18px;
+}
+
+
+.update-button {
+  min-width: 110px;
+
+  padding: 11px 20px;
+
+  border: none;
+  border-radius: 9px;
+
+  background: #dce8ef;
+  color: #8ba0ad;
+
+  font-family: inherit;
+  font-size: 13px;
+  font-weight: 700;
+
+  cursor: not-allowed;
+
+  transition: all 0.2s ease;
+}
+
+
+.update-button.modified {
+  background: #5f91b5;
+  color: white;
+
+  cursor: pointer;
+
+  box-shadow: 0 5px 12px rgba(80, 133, 168, 0.20);
+}
+
+
+.update-button.modified:hover {
+  background: #4f819f;
+
+  transform: translateY(-1px);
+}
+
+
+/* ========================================= */
+/* RESPONSIVE */
+/* ========================================= */
+
+@media (max-width: 950px) {
+
+  .home-container {
+    grid-template-columns: 1fr;
+  }
+
+}
+
+
+@media (max-width: 600px) {
+
+  .home-container {
+    padding: 20px;
+  }
+
+  .card-header {
+    padding: 22px;
+  }
+
+  .appointment-content,
+  .personal-content {
+    padding-left: 22px;
+    padding-right: 22px;
+  }
+
+  .appointment-row {
+    grid-template-columns: 1fr;
+    gap: 18px;
+  }
+
+}

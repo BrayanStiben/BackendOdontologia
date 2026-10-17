@@ -1,0 +1,187 @@
+<section class="dashboard">
+
+  <!-- Header con buscador y perfil -->
+  <header class="dashboard-topbar">
+    <div class="search-box">
+      <svg class="search-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="11" cy="11" r="7" stroke="currentColor" stroke-width="2"/>
+        <path d="M16.5 16.5L21 21" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+      </svg>
+      <input
+        type="text"
+        [(ngModel)]="searchQuery"
+        placeholder="Buscar paciente por nombre o ID..."
+        class="search-input"
+      >
+    </div>
+
+    <div class="doctor-badge">
+      <span class="doctor-name">Dr. Alex González | Admin</span>
+    </div>
+  </header>
+
+  <div class="dashboard-title-row">
+    <h1>Resumen General del Día</h1>
+  </div>
+
+  <!-- Métricas principales (4 tarjetas según mockup Página 3) -->
+  <section class="summary-grid">
+
+    <article class="summary-card">
+      <div class="summary-info">
+        <span class="summary-label">Citas para Hoy</span>
+        <strong class="summary-value">{{ summary ? summary.citasHoy : 12 }}</strong>
+      </div>
+    </article>
+
+    <article class="summary-card">
+      <div class="summary-info">
+        <span class="summary-label">Pacientes Atendidos</span>
+        <strong class="summary-value">
+          {{ summary ? summary.pacientesAtendidos : 8 }}
+          <span class="summary-total">/ {{ summary ? summary.citasHoy : 12 }}</span>
+        </strong>
+      </div>
+    </article>
+
+    <article class="summary-card">
+      <div class="summary-info">
+        <span class="summary-label">Ingresos Estimados</span>
+        <strong class="summary-value highlight-revenue">
+          ${{ summary ? summary.ingresosEstimados : '680.0' }}
+        </strong>
+      </div>
+    </article>
+
+    <article class="summary-card">
+      <div class="summary-info">
+        <span class="summary-label">Stock Crítico</span>
+        <strong class="summary-value highlight-warning">
+          {{ summary ? summary.stockCritico : 1 }}
+        </strong>
+      </div>
+    </article>
+
+  </section>
+
+  <!-- Layout Principal: Tabla a la izquierda y Widgets a la derecha -->
+  <div class="dashboard-body-layout">
+
+    <!-- Columna Izquierda: Próximos Pacientes en Espera -->
+    <section class="appointments-section">
+
+      <div class="section-heading">
+        <h2>Próximos Pacientes en Espera</h2>
+      </div>
+
+      <div class="table-card">
+        <div class="table-wrapper">
+          <table>
+            <thead>
+              <tr>
+                <th scope="col">Hora</th>
+                <th scope="col">Paciente</th>
+                <th scope="col">Odontólogo</th>
+                <th scope="col">Estado</th>
+                <th scope="col">Acción</th>
+              </tr>
+            </thead>
+            <tbody>
+              @if (pacientesFiltrados.length > 0) {
+                @for (paciente of pacientesFiltrados; track paciente.id) {
+                  <tr>
+                    <td class="time-cell">{{ paciente.timeFormatted }}</td>
+                    <td class="patient-cell">{{ paciente.patientName }}</td>
+                    <td class="doctor-cell">{{ paciente.doctorName }}</td>
+                    <td>
+                      <span
+                        class="status-badge"
+                        [class.status-waiting]="paciente.status === 'En espera'"
+                        [class.status-confirmed]="paciente.status === 'Confirmado' || paciente.status === 'Confirmada'"
+                        [class.status-pending]="paciente.status === 'Pendiente'"
+                        [class.status-scheduled]="paciente.status === 'Agendado'"
+                        [class.status-attended]="paciente.status === 'Completada' || paciente.status === 'Atendido'">
+                        {{ paciente.status }}
+                      </span>
+                    </td>
+                    <td class="action-cell">
+                      @if (paciente.status === 'En espera') {
+                        <button type="button" class="btn-action-primary" (click)="atenderPaciente(paciente)">
+                          Atender
+                        </button>
+                      } @else {
+                        <button type="button" class="btn-action-link" (click)="verFicha(paciente)">
+                          Ver Ficha
+                        </button>
+                      }
+                    </td>
+                  </tr>
+                }
+              } @else {
+                <tr class="empty-row">
+                  <td colspan="5" class="empty-state-cell">
+                    <p>No se encontraron pacientes para el filtro actual.</p>
+                  </td>
+                </tr>
+              }
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+    </section>
+
+    <!-- Columna Derecha: Acciones Rápidas y Atención Requerida -->
+    <aside class="dashboard-sidebar-widgets">
+
+      <!-- Widget 1: Acciones Rápidas -->
+      <section class="widget-card quick-actions-card">
+        <h3 class="widget-title">Acciones Rápidas</h3>
+        <div class="quick-actions-list">
+          <a routerLink="/reservar" class="quick-action-btn">
+            <span class="btn-symbol">+</span> Agendar Cita
+          </a>
+          <a routerLink="/facturacion/nueva" class="quick-action-btn">
+            <span class="btn-symbol">$</span> Registrar Cobro
+          </a>
+          <a routerLink="/historias-clinicas/1094821402/evaluacion" class="quick-action-btn">
+            <span class="btn-symbol">📄</span> Nueva Historia
+          </a>
+        </div>
+      </section>
+
+      <!-- Widget 2: Atención Requerida (Stock Bajo) -->
+      <section class="widget-card stock-alert-card">
+        <h3 class="widget-title">Atención Requerida</h3>
+
+        @if (restockSuccess) {
+          <div class="restock-banner">{{ restockSuccess }}</div>
+        }
+
+        <div class="stock-item-box">
+          <div class="stock-item-header">
+            <span class="stock-bullet">⚠️</span>
+            <strong class="stock-name">Stock Bajo</strong>
+          </div>
+          <p class="stock-desc">
+            {{ summary && summary.alertasStockBajo.length > 0 ? summary.alertasStockBajo[0].medicineName : 'Resina Z350 (4g)' }}
+          </p>
+          <p class="stock-qty">
+            Quedan {{ summary && summary.alertasStockBajo.length > 0 ? summary.alertasStockBajo[0].currentStock : 2 }} unidades.
+          </p>
+
+          <button
+            type="button"
+            class="reabastecer-btn"
+            [disabled]="restocking"
+            (click)="reabastecer(summary && summary.alertasStockBajo.length > 0 ? summary.alertasStockBajo[0].medicineId : 'resina-z350-4g')">
+            {{ restocking ? 'Reabasteciendo...' : 'Reabastecer' }}
+          </button>
+        </div>
+      </section>
+
+    </aside>
+
+  </div>
+
+</section>

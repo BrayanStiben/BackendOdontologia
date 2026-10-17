@@ -1,0 +1,355 @@
+/* =========================================
+   CONFIGURACIÓN GENERAL
+   ========================================= */
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: Arial, Helvetica, sans-serif;
+  background-image: url("/fondo.jpg");
+  background-size: cover;
+  margin: 0;
+}
+
+/* =========================================
+   PALETA FUNCTIONAL LIGHT BLUE GRADIENT
+   =========================================
+
+   #5A85A9
+   #6D98BA
+   #80ABC9
+   #93BDD8
+   #A6D0E7
+*/
+
+
+/* =========================================
+   HERO
+   ========================================= */
+
+.hero {
+  position: relative;
+  width: 100%;
+  min-height: 100vh;
+  overflow: hidden;
+}
+
+
+/* =========================================
+   CONTENEDOR
+   ========================================= */
+
+.hero-container {
+  width: min(1200px, 90%);
+  min-height: 100vh;
+  margin: 0 auto;
+
+  position: relative;
+  z-index: 2;
+}
+
+
+/* =========================================
+   HEADER / LOGO
+   ========================================= */
+
+.header {
+  padding-top: 35px;
+}
+
+/* =========================================
+   CONTENIDO DEL HERO
+   ========================================= */
+
+.hero-content {
+  min-height: calc(100vh - 100px);
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  gap: 60px;
+
+  padding-bottom: 40px;
+}
+
+
+/* =========================================
+   TEXTO
+   ========================================= */
+
+.hero-text {
+  width: 48%;
+  max-width: 550px;
+}
+
+.hero-text h1 {
+  color: #ffffff;
+
+  font-size: clamp(2.2rem, 4vw, 4rem);
+  font-weight: 500;
+
+  line-height: 1.15;
+
+  margin-bottom: 25px;
+}
+
+.hero-text p {
+  max-width: 480px;
+
+  color: #ffffff;
+
+  font-size: 1.1rem;
+  line-height: 1.7;
+
+  margin-bottom: 35px;
+}
+
+
+/* =========================================
+   BOTONES
+   ========================================= */
+
+.hero-buttons {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+
+.btn {
+  display: inline-flex;
+
+  align-items: center;
+  justify-content: center;
+
+  min-width: 145px;
+  padding: 13px 25px;
+
+  border-radius: 30px;
+
+  text-decoration: none;
+
+  font-size: 0.95rem;
+  font-weight: 600;
+
+  transition:
+    transform 0.2s ease,
+    background-color 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+
+/* Botón principal */
+
+.btn-primary {
+  background-color: #ffffff;
+  color: #5A85A9;
+}
+
+.btn-primary:hover {
+  transform: translateY(-2px);
+
+  box-shadow:
+    0 8px 20px rgba(48, 91, 115, 0.25);
+}
+
+
+/* Botón secundario */
+
+.btn-secondary {
+  background-color: transparent;
+
+  color: #ffffff;
+
+  border: 2px solid #ffffff;
+}
+
+.btn-secondary:hover {
+  background-color: #ffffff;
+  color: #5A85A9;
+
+  transform: translateY(-2px);
+}
+
+
+/* =========================================
+   IMAGEN
+   ========================================= */
+
+.hero-image {
+  width: 50%;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+}
+
+
+/*
+   La imagen que coloques aquí conservará
+   sus proporciones.
+
+   Puedes utilizar PNG con transparencia
+   para conseguir un resultado parecido
+   a la captura original.
+*/
+
+.hero-image img {
+  display: block;
+
+  width: 100%;
+  max-width: 1500px;
+  height: auto;
+
+  object-fit: contain;
+
+  padding-top: 40px;
+
+  filter:
+    drop-shadow(
+      0 15px 25px rgba(48, 91, 115, 0.18)
+    );
+}
+
+
+/* =========================================
+   PARTE BLANCA INFERIOR
+   ========================================= */
+
+.bottom-section {
+  position: absolute;
+
+  left: -5%;
+  bottom: -1px;
+
+  width: 110%;
+  height: 100px;
+
+  background-color: #ffffff;
+
+  /*
+     Curva superior para imitar
+     la captura original.
+  */
+
+  border-radius: 50% 50% 0 0 / 45% 45% 0 0;
+
+  z-index: 3;
+}
+
+/* =========================================
+   SEGUNDA SECCIÓN
+   ========================================= */
+
+.content-section {
+  min-height: 500px;
+
+  display: flex;
+  flex-direction: column;
+
+  align-items: center;
+  justify-content: center;
+
+  text-align: center;
+
+  padding: 80px 20px;
+
+  background-color: #ffffff;
+}
+
+/* =========================================
+   RESPONSIVE
+   ========================================= */
+
+@media (max-width: 800px) {
+
+  .hero-container {
+    width: 88%;
+  }
+
+  .hero-content {
+    flex-direction: column;
+
+    justify-content: center;
+
+    text-align: center;
+
+    padding-top: 50px;
+    padding-bottom: 130px;
+  }
+
+  .hero-text {
+    width: 100%;
+    max-width: 650px;
+  }
+
+  .hero-text p {
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .hero-buttons {
+    justify-content: center;
+  }
+
+  .hero-image {
+    width: 80%;
+  }
+
+  .header {
+    text-align: center;
+  }
+
+  .bottom-section {
+    height: 75px;
+  }
+}
+
+
+/* =========================================
+   MÓVILES
+   ========================================= */
+
+@media (max-width: 500px) {
+
+  .header {
+    padding-top: 25px;
+  }
+
+  .hero-text h1 {
+    font-size: 2rem;
+  }
+
+  .hero-text p {
+    font-size: 1rem;
+  }
+
+  .hero-buttons {
+    flex-direction: column;
+
+    width: 100%;
+  }
+
+  .btn {
+    width: 100%;
+    max-width: 230px;
+  }
+
+  .hero-image {
+    width: 95%;
+  }
+
+  .bottom-section {
+    height: 60px;
+  }
+}

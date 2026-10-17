@@ -1,0 +1,177 @@
+.history-page {
+
+  width: 100%;
+
+  min-height: 100%;
+
+  padding:
+    30px
+    35px;
+
+  box-sizing: border-box;
+
+  background-color: #ffffff;
+}
+
+
+/* =========================================================
+   ENCABEZADO
+   ========================================================= */
+
+.history-page-header {
+
+  margin-bottom: 25px;
+}
+
+
+.history-page-header h1 {
+
+  margin: 0 0 6px;
+
+  color: #295568;
+
+  font-size: 1.65rem;
+
+  font-weight: 600;
+}
+
+
+.history-page-header p {
+
+  margin: 0;
+
+  color: #78929F;
+
+  font-size: 0.82rem;
+}
+
+
+
+/* =========================================================
+   LISTA
+   ========================================================= */
+
+.history-list {
+
+  display: flex;
+
+  flex-direction: column;
+
+  gap: 18px;
+
+  width: 100%;
+
+  max-width: 990px;
+}
+
+
+
+/* =========================================================
+   ESTADO VACÍO
+   ========================================================= */
+
+.empty-history {
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  flex-direction: column;
+
+  min-height: 280px;
+
+  padding: 30px;
+
+  border: 1px dashed #BBD8E5;
+
+  border-radius: 12px;
+
+  background-color: #F8FCFE;
+
+  text-align: center;
+
+  box-sizing: border-box;
+}
+
+
+.empty-icon {
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  width: 50px;
+
+  height: 50px;
+
+  margin-bottom: 15px;
+
+  border-radius: 50%;
+
+  background-color: #E5F3F9;
+
+  color: #477F98;
+}
+
+
+.empty-icon svg {
+
+  width: 25px;
+
+  height: 25px;
+}
+
+
+.empty-history h2 {
+
+  margin: 0 0 7px;
+
+  color: #305B73;
+
+  font-size: 1rem;
+
+  font-weight: 600;
+}
+
+
+.empty-history p {
+
+  max-width: 400px;
+
+  margin: 0;
+
+  color: #8099A5;
+
+  font-size: 0.78rem;
+
+  line-height: 1.5;
+}
+
+
+
+/* =========================================================
+   RESPONSIVE
+   ========================================================= */
+
+@media (max-width: 700px) {
+
+  .history-page {
+
+    padding:
+      22px
+      20px;
+
+  }
+
+
+  .history-page-header h1 {
+
+    font-size: 1.4rem;
+
+  }
+
+}

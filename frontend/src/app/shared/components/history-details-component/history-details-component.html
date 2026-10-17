@@ -1,0 +1,508 @@
+<!-- Fondo oscuro -->
+<div class="modal-overlay">
+
+  <!-- Ventana -->
+  <section
+    class="modal-container"
+    role="dialog"
+    aria-modal="true"
+    aria-labelledby="modal-title"
+  >
+
+    <!-- =====================================================
+         ENCABEZADO
+         ===================================================== -->
+
+    <header class="modal-header">
+
+      <div class="header-information">
+
+        <div class="header-icon">
+
+          <svg
+            viewBox="0 0 24 24"
+            fill="none"
+          >
+
+            <rect
+              x="4"
+              y="3"
+              width="16"
+              height="18"
+              rx="2"
+              stroke="currentColor"
+              stroke-width="1.7"
+            />
+
+            <path
+              d="M8 8H16"
+              stroke="currentColor"
+              stroke-width="1.7"
+              stroke-linecap="round"
+            />
+
+            <path
+              d="M8 12H16"
+              stroke="currentColor"
+              stroke-width="1.7"
+              stroke-linecap="round"
+            />
+
+            <path
+              d="M8 16H13"
+              stroke="currentColor"
+              stroke-width="1.7"
+              stroke-linecap="round"
+            />
+
+          </svg>
+
+        </div>
+
+
+        <div>
+
+          <h2 id="modal-title">
+            Detalle de atención
+          </h2>
+
+          <span>
+                        Información de la atención odontológica
+                    </span>
+
+        </div>
+
+      </div>
+
+
+      <!-- Botón cerrar -->
+
+      <button
+        type="button"
+        class="close-button"
+        aria-label="Cerrar detalles"
+        (click)="cerrarModal()"
+      >
+
+        <svg
+          viewBox="0 0 24 24"
+          fill="none"
+        >
+
+          <path
+            d="M6 6L18 18"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+          />
+
+          <path
+            d="M18 6L6 18"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+          />
+
+        </svg>
+
+      </button>
+
+    </header>
+
+
+
+    <!-- =====================================================
+         CONTENIDO CON SCROLL
+         ===================================================== -->
+
+    <div class="modal-content">
+
+
+      <!-- FECHA -->
+
+      <div class="detail-date">
+
+        <div class="date-icon">
+
+          <svg
+            viewBox="0 0 24 24"
+            fill="none"
+          >
+
+            <rect
+              x="3"
+              y="5"
+              width="18"
+              height="16"
+              rx="2"
+              stroke="currentColor"
+              stroke-width="1.7"
+            />
+
+            <path
+              d="M16 3V7"
+              stroke="currentColor"
+              stroke-width="1.7"
+              stroke-linecap="round"
+            />
+
+            <path
+              d="M8 3V7"
+              stroke="currentColor"
+              stroke-width="1.7"
+              stroke-linecap="round"
+            />
+
+            <path
+              d="M3 10H21"
+              stroke="currentColor"
+              stroke-width="1.7"
+            />
+
+          </svg>
+
+        </div>
+
+
+        <div>
+
+                    <span>
+                        Fecha de atención
+                    </span>
+
+          <strong>
+            {{ fecha }}
+          </strong>
+
+        </div>
+
+      </div>
+
+
+
+      <!-- =================================================
+           DIAGNÓSTICO
+           ================================================= -->
+
+      <section class="detail-section">
+
+        <div class="section-heading">
+
+          <div class="section-icon">
+
+            <svg
+              viewBox="0 0 24 24"
+              fill="none"
+            >
+
+              <circle
+                cx="12"
+                cy="12"
+                r="9"
+                stroke="currentColor"
+                stroke-width="1.7"
+              />
+
+              <path
+                d="M12 10V16"
+                stroke="currentColor"
+                stroke-width="1.7"
+                stroke-linecap="round"
+              />
+
+              <circle
+                cx="12"
+                cy="7"
+                r="1"
+                fill="currentColor"
+              />
+
+            </svg>
+
+          </div>
+
+          <h3>
+            Diagnóstico
+          </h3>
+
+        </div>
+
+
+        <div class="detail-box">
+
+          <p>
+            {{ diagnostico }}
+          </p>
+
+        </div>
+
+      </section>
+
+
+
+      <!-- =================================================
+           OBSERVACIONES
+           ================================================= -->
+
+      <section class="detail-section">
+
+        <div class="section-heading">
+
+          <div class="section-icon">
+
+            <svg
+              viewBox="0 0 24 24"
+              fill="none"
+            >
+
+              <path
+                d="M5 4H19C20.1 4 21 4.9 21 6V15C21 16.1 20.1 17 19 17H11L6 21V17H5C3.9 17 3 16.1 3 15V6C3 4.9 3.9 4 5 4Z"
+                stroke="currentColor"
+                stroke-width="1.7"
+                stroke-linejoin="round"
+              />
+
+              <path
+                d="M7 8H17"
+                stroke="currentColor"
+                stroke-width="1.7"
+                stroke-linecap="round"
+              />
+
+              <path
+                d="M7 12H14"
+                stroke="currentColor"
+                stroke-width="1.7"
+                stroke-linecap="round"
+              />
+
+            </svg>
+
+          </div>
+
+          <h3>
+            Observaciones
+          </h3>
+
+        </div>
+
+
+        <div class="detail-box">
+
+          <p>
+            {{ observaciones }}
+          </p>
+
+        </div>
+
+      </section>
+
+
+
+      <!-- =================================================
+           TRATAMIENTO
+           ================================================= -->
+
+      <section class="detail-section">
+
+        <div class="section-heading">
+
+          <div class="section-icon">
+
+            <svg
+              viewBox="0 0 24 24"
+              fill="none"
+            >
+
+              <path
+                d="M8 4H16"
+                stroke="currentColor"
+                stroke-width="1.7"
+                stroke-linecap="round"
+              />
+
+              <path
+                d="M6 7H18"
+                stroke="currentColor"
+                stroke-width="1.7"
+                stroke-linecap="round"
+              />
+
+              <rect
+                x="5"
+                y="7"
+                width="14"
+                height="14"
+                rx="2"
+                stroke="currentColor"
+                stroke-width="1.7"
+              />
+
+              <path
+                d="M9 12H15"
+                stroke="currentColor"
+                stroke-width="1.7"
+                stroke-linecap="round"
+              />
+
+              <path
+                d="M12 9V15"
+                stroke="currentColor"
+                stroke-width="1.7"
+                stroke-linecap="round"
+              />
+
+            </svg>
+
+          </div>
+
+          <h3>
+            Tratamiento
+          </h3>
+
+        </div>
+
+
+        <div class="detail-box">
+
+          <p>
+            {{ tratamiento }}
+          </p>
+
+        </div>
+
+      </section>
+
+
+
+      <!-- =================================================
+           MEDICAMENTOS
+           ================================================= -->
+
+      <section class="detail-section">
+
+        <div class="section-heading">
+
+          <div class="section-icon">
+
+            <svg
+              viewBox="0 0 24 24"
+              fill="none"
+            >
+
+              <path
+                d="M7 7L17 17"
+                stroke="currentColor"
+                stroke-width="1.7"
+                stroke-linecap="round"
+              />
+
+              <path
+                d="M17 7L7 17"
+                stroke="currentColor"
+                stroke-width="1.7"
+                stroke-linecap="round"
+              />
+
+              <rect
+                x="4"
+                y="4"
+                width="16"
+                height="16"
+                rx="8"
+                stroke="currentColor"
+                stroke-width="1.7"
+              />
+
+            </svg>
+
+          </div>
+
+          <h3>
+            Medicamentos
+          </h3>
+
+        </div>
+
+
+        <div class="medication-list">
+
+          @for (
+            medicamento of medicamentos;
+            track $index
+            ) {
+
+            <div class="medication-card">
+
+              <div class="medication-information">
+
+                <strong>
+                  {{ medicamento.MedicineName }}
+                </strong>
+
+                <span>
+                                    Medicamento registrado
+                                </span>
+
+              </div>
+
+
+              <div class="medication-units">
+
+                                <span>
+                                    Unidades
+                                </span>
+
+                <strong>
+                  {{ medicamento.UnitCost}}
+                </strong>
+
+              </div>
+
+            </div>
+
+          }
+
+
+          @if (medicamentos.length === 0) {
+
+            <div class="no-medications">
+
+              No hay medicamentos registrados
+              para esta atención.
+
+            </div>
+
+          }
+
+        </div>
+
+      </section>
+
+    </div>
+
+
+
+    <!-- =====================================================
+         FOOTER
+         ===================================================== -->
+
+    <footer class="modal-footer">
+
+            <span>
+                Registro de atención odontológica
+            </span>
+
+      <button
+        type="button"
+        class="close-footer-button"
+        (click)="cerrarModal()"
+      >
+        Cerrar
+      </button>
+
+    </footer>
+
+  </section>
+
+</div>

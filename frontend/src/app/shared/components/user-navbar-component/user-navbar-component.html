@@ -1,0 +1,107 @@
+<header class="user-navbar">
+
+  <div class="logo-container">
+    <div class="logo-text">
+      <strong>AGENDAS</strong>
+      <span>DOC-TOOTH</span>
+    </div>
+  </div>
+
+  <div class="user-navbar-container">
+
+    <!-- =================================================
+         USUARIO ACTUAL
+         ================================================= -->
+
+    <div class="user-info">
+
+      <div class="user-icon">
+
+        <svg
+          viewBox="0 0 24 24"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+
+          <circle
+            cx="12"
+            cy="8"
+            r="3.5"
+            stroke="currentColor"
+            stroke-width="1.8"
+          />
+
+          <path
+            d="M5.5 20C5.5 16.4 8.4 13.5 12 13.5C15.6 13.5 18.5 16.4 18.5 20"
+            stroke="currentColor"
+            stroke-width="1.8"
+            stroke-linecap="round"
+          />
+
+        </svg>
+
+      </div>
+
+
+      <span class="user-name">
+                {{usuario().nombre}}
+            </span>
+
+    </div>
+
+
+    <!-- =================================================
+         CERRAR SESIÓN
+         ================================================= -->
+
+    <button
+      type="button"
+      class="logout-button"
+      (click)="logout()"
+    >
+
+      <svg
+        class="logout-icon"
+        viewBox="0 0 24 24"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+
+        <!-- Puerta -->
+
+        <path
+          d="M10 4H5.5C4.67 4 4 4.67 4 5.5V18.5C4 19.33 4.67 20 5.5 20H10"
+          stroke="currentColor"
+          stroke-width="1.8"
+          stroke-linecap="round"
+        />
+
+        <!-- Flecha -->
+
+        <path
+          d="M13 8L17 12L13 16"
+          stroke="currentColor"
+          stroke-width="1.8"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        />
+
+        <path
+          d="M9 12H17"
+          stroke="currentColor"
+          stroke-width="1.8"
+          stroke-linecap="round"
+        />
+
+      </svg>
+
+
+      <span>
+                Cerrar sesión
+            </span>
+
+    </button>
+
+  </div>
+
+</header>

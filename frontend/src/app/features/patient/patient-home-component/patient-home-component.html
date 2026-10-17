@@ -1,0 +1,385 @@
+<div class="home-container">
+
+  <!-- ========================= -->
+  <!-- COLUMNA IZQUIERDA - CITA -->
+  <!-- ========================= -->
+
+  <section class="appointment-card">
+
+    <div class="card-header">
+
+      <div class="header-icon appointment-icon">
+        <!-- Icono calendario -->
+        <svg
+          viewBox="0 0 24 24"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M7 3V6M17 3V6M4 9H20M5 5H19C20.1 5 21 5.9 21 7V19C21 20.1 20.1 21 19 21H5C3.9 21 3 20.1 3 19V7C3 5.9 3.9 5 5 5Z"
+            stroke="currentColor"
+            stroke-width="1.8"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          />
+        </svg>
+      </div>
+
+      <div class="header-text">
+        <h2>Cita actual</h2>
+        <p>Información de tu próxima cita</p>
+      </div>
+
+      <!-- Botón refrescar -->
+      <button
+        type="button"
+        class="refresh-button"
+        (click)="refrescarCita()"
+        title="Actualizar cita"
+      >
+        <svg
+          viewBox="0 0 24 24"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M20 11C19.5 7.1 16.1 4 12 4C7.6 4 4 7.6 4 12C4 16.4 7.6 20 12 20C15.3 20 18.1 18 19.3 15"
+            stroke="currentColor"
+            stroke-width="1.8"
+            stroke-linecap="round"
+          />
+
+          <path
+            d="M20 5V11H14"
+            stroke="currentColor"
+            stroke-width="1.8"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          />
+        </svg>
+      </button>
+
+    </div>
+
+
+    <!-- ========================= -->
+    <!-- CUANDO EXISTE UNA CITA -->
+    <!-- ========================= -->
+
+    @if (citaActual) {
+
+      <div class="appointment-content">
+
+        <div class="appointment-main">
+
+          <div class="appointment-field">
+            <span class="field-label">Especialidad</span>
+            <span class="field-value">
+              {{ citaActual.especialidad }}
+            </span>
+          </div>
+
+
+          <div class="appointment-field">
+            <span class="field-label">Profesional</span>
+            <span class="field-value">
+              {{ citaActual.profesional }}
+            </span>
+          </div>
+
+
+          <div class="appointment-row">
+
+            <div class="appointment-field">
+              <span class="field-label">Fecha</span>
+              <span class="field-value">
+                {{ citaActual.fecha }}
+              </span>
+            </div>
+
+            <div class="appointment-field">
+              <span class="field-label">Hora</span>
+              <span class="field-value">
+                {{ citaActual.hora }}
+              </span>
+            </div>
+
+          </div>
+
+
+          <div class="appointment-field">
+            <span class="field-label">Estado</span>
+
+            <span class="appointment-status">
+              {{ citaActual.estado }}
+            </span>
+          </div>
+
+        </div>
+
+
+        <!-- Botón cancelar -->
+
+        <div class="appointment-actions">
+
+          <button
+            type="button"
+            class="cancel-button"
+            (click)="cancelarCita()"
+          >
+
+            <svg
+              viewBox="0 0 24 24"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M6 6L18 18M18 6L6 18"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+              />
+            </svg>
+
+            Cancelar cita
+
+          </button>
+
+        </div>
+
+      </div>
+
+    }
+
+    @else {
+
+      <div class="no-appointment">
+
+        <div class="empty-icon">
+
+          <svg
+            viewBox="0 0 24 24"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M7 3V6M17 3V6M4 9H20M5 5H19C20.1 5 21 5.9 21 7V19C21 20.1 20.1 21 19 21H5C3.9 21 3 20.1 3 19V7C3 5.9 3.9 5 5 5Z"
+              stroke="currentColor"
+              stroke-width="1.8"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            />
+          </svg>
+
+        </div>
+
+        <p>No hay ninguna cita agendada actualmente.</p>
+
+      </div>
+
+    }
+
+  </section>
+
+
+
+  <!-- ============================= -->
+  <!-- COLUMNA DERECHA - INFORMACIÓN -->
+  <!-- ============================= -->
+
+  <section class="personal-card">
+
+    <div class="card-header">
+
+      <div class="header-icon personal-icon">
+
+        <svg
+          viewBox="0 0 24 24"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M20 21C20 17.7 16.4 15 12 15C7.6 15 4 17.7 4 21"
+            stroke="currentColor"
+            stroke-width="1.8"
+            stroke-linecap="round"
+          />
+
+          <circle
+            cx="12"
+            cy="7"
+            r="4"
+            stroke="currentColor"
+            stroke-width="1.8"
+          />
+        </svg>
+
+      </div>
+
+      <div class="header-text">
+        <h2>Información personal</h2>
+        <p>Datos correspondientes a tu cuenta</p>
+      </div>
+
+    </div>
+
+
+    <div class="personal-content">
+
+      <!-- Nombre -->
+
+      <div class="input-group">
+
+        <label for="nombre">
+          Nombres y apellidos
+        </label>
+
+        <div class="input-container">
+
+          <input
+            id="nombre"
+            type="text"
+            [value]="usuario().nombre"
+            readonly
+          />
+
+        </div>
+
+      </div>
+
+
+      <!-- Documento -->
+
+      <div class="input-group">
+
+        <label for="documento">
+          Documento / identificación
+        </label>
+
+        <div class="input-container">
+
+          <input
+            id="documento"
+            type="text"
+            [value]="usuario().id"
+            readonly
+          />
+
+        </div>
+
+      </div>
+
+
+      <!-- Correo -->
+
+      <div class="input-group">
+
+        <label for="correo">
+          Correo electrónico
+        </label>
+
+        <div class="input-container editable">
+
+          <input
+            id="correo"
+            type="email"
+            [(ngModel)]="correo"
+          />
+
+          <span class="edit-icon">
+
+            <svg
+              viewBox="0 0 24 24"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M12 20H21"
+                stroke="currentColor"
+                stroke-width="1.8"
+                stroke-linecap="round"
+              />
+
+              <path
+                d="M16.5 3.5C16.9 3.1 17.5 3.1 17.9 3.5L20.5 6.1C20.9 6.5 20.9 7.1 20.5 7.5L8 20H4V16L16.5 3.5Z"
+                stroke="currentColor"
+                stroke-width="1.8"
+                stroke-linejoin="round"
+              />
+            </svg>
+
+          </span>
+
+        </div>
+
+      </div>
+
+
+      <!-- Teléfono -->
+
+      <div class="input-group">
+
+        <label for="telefono">
+          Teléfono / celular
+        </label>
+
+        <div class="input-container editable">
+
+          <input
+            id="telefono"
+            type="tel"
+            [(ngModel)]="telefono"
+          />
+
+          <span class="edit-icon">
+
+            <svg
+              viewBox="0 0 24 24"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M12 20H21"
+                stroke="currentColor"
+                stroke-width="1.8"
+                stroke-linecap="round"
+              />
+
+              <path
+                d="M16.5 3.5C16.9 3.1 17.5 3.1 17.9 3.5L20.5 6.1C20.9 6.5 20.9 7.1 20.5 7.5L8 20H4V16L16.5 3.5Z"
+                stroke="currentColor"
+                stroke-width="1.8"
+                stroke-linejoin="round"
+              />
+            </svg>
+
+          </span>
+
+        </div>
+
+      </div>
+
+    </div>
+
+
+    <!-- ========================= -->
+    <!-- BOTÓN ACTUALIZAR -->
+    <!-- ========================= -->
+
+    <div class="personal-actions">
+
+      <button
+        type="button"
+        class="update-button"
+        [class.modified]="datosModificados"
+        [disabled]="!datosModificados"
+        (click)="actualizarDatos()"
+      >
+        Actualizar
+      </button>
+
+    </div>
+
+  </section>
+
+</div>

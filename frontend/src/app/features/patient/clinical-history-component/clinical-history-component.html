@@ -1,0 +1,125 @@
+<div class="history-page">
+
+  <header class="history-page-header">
+
+    <div>
+
+      <h1>
+        Historial clínico
+      </h1>
+
+      <p>
+        Consulta el registro de tus atenciones odontológicas.
+      </p>
+
+    </div>
+
+  </header>
+
+
+  <main class="history-list">
+
+    @for (
+      historial of clinicalHistory;
+      track $index
+      ) {
+
+      <app-history-card-component
+
+        [fecha]="historial.fecha"
+
+        [diagnostico]="historial.diagnostico"
+
+        [tratamiento]="historial.tratamiento"
+
+        [observaciones]="historial.observaciones"
+
+        (verDetalle)="abrirDetalle(historial)"
+      />
+
+    }
+
+    @if (mostrarDetalle && historialSeleccionado) {
+
+      <app-history-details-component
+
+        [fecha]="historialSeleccionado.fecha"
+
+        [diagnostico]="historialSeleccionado.diagnostico"
+
+        [observaciones]="historialSeleccionado.observaciones"
+
+        [tratamiento]="historialSeleccionado.tratamiento"
+
+        [medicamentos]="historialSeleccionado.medicamentos"
+
+        (cerrar)="cerrarDetalle()"
+
+      />
+
+    }
+
+
+    @if (clinicalHistory.length === 0) {
+
+      <div class="empty-history">
+
+        <div class="empty-icon">
+
+          <svg
+            viewBox="0 0 24 24"
+            fill="none"
+          >
+
+            <rect
+              x="4"
+              y="3"
+              width="16"
+              height="18"
+              rx="2"
+              stroke="currentColor"
+              stroke-width="1.7"
+            />
+
+            <path
+              d="M8 8H16"
+              stroke="currentColor"
+              stroke-width="1.7"
+              stroke-linecap="round"
+            />
+
+            <path
+              d="M8 12H16"
+              stroke="currentColor"
+              stroke-width="1.7"
+              stroke-linecap="round"
+            />
+
+            <path
+              d="M8 16H12"
+              stroke="currentColor"
+              stroke-width="1.7"
+              stroke-linecap="round"
+            />
+
+          </svg>
+
+        </div>
+
+
+        <h2>
+          No hay registros clínicos
+        </h2>
+
+        <p>
+          Actualmente no existen atenciones registradas
+          para tu cuenta.
+        </p>
+
+      </div>
+
+    }
+
+  </main>
+
+</div>

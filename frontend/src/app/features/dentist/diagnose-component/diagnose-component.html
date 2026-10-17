@@ -1,0 +1,318 @@
+
+<section class="diagnosticar-page">
+
+  <header class="page-header">
+    <div>
+      <h1>Registrar diagnóstico</h1>
+      <p>
+        Registra los hallazgos clínicos y define el tratamiento del paciente.
+      </p>
+    </div>
+  </header>
+
+  <!-- Información del paciente -->
+  <section class="patient-section">
+    <h2>Datos del paciente</h2>
+
+    <div class="patient-search">
+      <label for="documentoPaciente">Número de documento</label>
+
+      <input
+        id="documentoPaciente"
+        type="text"
+        inputmode="numeric"
+        [ngModel]="paciente.ID"
+        (ngModelChange)="onDocumentoChange($event)"
+        name="documentoPaciente"
+        placeholder="Ingrese el documento del paciente"
+        autocomplete="off"
+      />
+
+      @if (buscandoPaciente) {
+        <p class="patient-message">Buscando paciente...</p>
+      } @else if (mensajePaciente) {
+        <p class="patient-message patient-error">
+          {{ mensajePaciente }}
+        </p>
+      }
+    </div>
+
+    @if (paciente) {
+      <div class="patient-data">
+        <div class="patient-field">
+          <label>Nombre completo</label>
+          <p>{{ paciente.nombre }}</p>
+        </div>
+
+        <div class="patient-field">
+          <label>Teléfono</label>
+          <p>{{ paciente.phone }}</p>
+        </div>
+      </div>
+    } @else {
+      <p class="patient-placeholder">
+        Ingrese el documento para consultar los datos del paciente.
+      </p>
+    }
+  </section>
+
+  <!-- Formulario clínico -->
+  <section class="panel clinical-panel">
+    <div class="panel-heading">
+      <div class="heading-icon">
+        <svg viewBox="0 0 24 24" fill="none"
+             xmlns="http://www.w3.org/2000/svg">
+          <path d="M6 3H15L20 8V20C20 20.6 19.6 21 19 21H6C5.4 21 5 20.6 5 20V4C5 3.4 5.4 3 6 3Z"
+                stroke="currentColor" stroke-width="1.7"
+                stroke-linejoin="round"/>
+          <path d="M14 3V9H20M8 13H16M8 17H16"
+                stroke="currentColor" stroke-width="1.7"
+                stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </div>
+
+      <div>
+        <h2>Información clínica</h2>
+        <p>Describe el diagnóstico, las observaciones y el tratamiento.</p>
+      </div>
+    </div>
+
+    <form class="diagnosis-form" (ngSubmit)="registrarDiagnostico()">
+
+      <div class="form-field">
+        <label for="diagnostico">
+          Diagnóstico <span class="required">*</span>
+        </label>
+        <textarea
+          id="diagnostico"
+          name="diagnostico"
+          [(ngModel)]="diagnostico"
+          rows="4"
+          placeholder="Describe el diagnóstico clínico..."
+          required>
+        </textarea>
+        <span class="field-hint">
+          Describe los hallazgos y la condición clínica identificada.
+        </span>
+      </div>
+
+      <div class="form-field">
+        <label for="observaciones">Observaciones</label>
+        <textarea
+          id="observaciones"
+          name="observaciones"
+          [(ngModel)]="observaciones"
+          rows="3"
+          placeholder="Añade observaciones relevantes...">
+        </textarea>
+      </div>
+
+      <div class="form-field">
+        <label for="tratamiento">
+          Tratamiento <span class="required">*</span>
+        </label>
+        <textarea
+          id="tratamiento"
+          name="tratamiento"
+          [(ngModel)]="tratamiento"
+          rows="4"
+          placeholder="Describe el tratamiento indicado..."
+          required>
+        </textarea>
+        <span class="field-hint">
+          Especifica el procedimiento o plan de tratamiento clínico.
+        </span>
+      </div>
+
+      <!-- Detalles del tratamiento -->
+      <section class="medication-section">
+        <div class="medication-heading">
+          <div class="heading-icon">
+            <svg viewBox="0 0 24 24" fill="none"
+                 xmlns="http://www.w3.org/2000/svg">
+              <path d="M8 4.5A4.5 4.5 0 0 1 12.5 9V15A4.5 4.5 0 0 1 8 19.5A4.5 4.5 0 0 1 3.5 15V9A4.5 4.5 0 0 1 8 4.5Z"
+                    stroke="currentColor" stroke-width="1.7"/>
+              <path d="M3.5 12H12.5"
+                    stroke="currentColor" stroke-width="1.7"/>
+              <path d="M16 7H21M18.5 4.5V9.5"
+                    stroke="currentColor" stroke-width="1.7"
+                    stroke-linecap="round"/>
+            </svg>
+          </div>
+
+          <div>
+            <h3>Detalles del tratamiento</h3>
+            <p>
+              Añade los medicamentos y las unidades correspondientes.
+            </p>
+          </div>
+        </div>
+
+        <div class="medication-search">
+          <label for="buscarMedicamento">Buscar medicamento</label>
+
+          <div class="search-row">
+            <input
+              id="buscarMedicamento"
+              name="buscarMedicamento"
+              type="text"
+              [(ngModel)]="busquedaMedicamento"
+              placeholder="Escribe el nombre del medicamento..."
+              autocomplete="off"
+              (keyup.enter)="buscarMedicamentos()"
+            />
+
+            <button
+              type="button"
+              class="secondary-button"
+              [disabled]="cargandoMedicamentos"
+              (click)="buscarMedicamentos()">
+              Buscar
+            </button>
+          </div>
+
+          @if (mensajeMedicamentos) {
+            <p class="inline-message">{{ mensajeMedicamentos }}</p>
+          }
+
+          @if (resultadosMedicamentos.length > 0) {
+            <div class="medication-results">
+              @for (medicamento of resultadosMedicamentos; track medicamento.ID) {
+                <button
+                  type="button"
+                  class="medication-result"
+                  [class.selected]="medicamentoSeleccionado?.ID === medicamento.ID"
+                  (click)="seleccionarMedicamento(medicamento)">
+
+                  <span class="result-icon">
+                    <svg viewBox="0 0 24 24" fill="none"
+                         xmlns="http://www.w3.org/2000/svg">
+                      <path d="M8 4.5A4.5 4.5 0 0 1 12.5 9V15A4.5 4.5 0 0 1 8 19.5A4.5 4.5 0 0 1 3.5 15V9A4.5 4.5 0 0 1 8 4.5Z"
+                            stroke="currentColor" stroke-width="1.7"/>
+                      <path d="M3.5 12H12.5"
+                            stroke="currentColor" stroke-width="1.7"/>
+                    </svg>
+                  </span>
+
+                  <span class="result-description">
+                    <strong>{{ medicamento.MedicineName }}</strong>
+                  </span>
+
+                  <span class="result-action">
+                    {{ medicamentoSeleccionado?.ID === medicamento.ID
+                    ? 'Seleccionado'
+                    : 'Seleccionar' }}
+                  </span>
+                </button>
+              }
+            </div>
+          }
+        </div>
+
+        @if (medicamentoSeleccionado) {
+          <div class="selected-medication">
+            <div class="selected-medication-info">
+              <span class="field-label">MEDICAMENTO SELECCIONADO</span>
+              <strong>{{ medicamentoSeleccionado.MedicineName }}</strong>
+            </div>
+
+            <div class="units-field">
+              <label for="unidades">Unidades</label>
+              <input
+                id="unidades"
+                name="unidades"
+                type="number"
+                min="1"
+                step="1"
+                [(ngModel)]="unidadesMedicamento"
+                required
+              />
+            </div>
+
+            <button
+              type="button"
+              class="add-medication-button"
+              (click)="agregarMedicamento()">
+              <span aria-hidden="true">+</span>
+              Agregar
+            </button>
+          </div>
+        }
+
+        @if (detallesTratamiento.length > 0) {
+          <div class="added-medications">
+            <h4>Medicamentos añadidos</h4>
+
+            <div class="medication-table">
+              <div class="medication-table-header">
+                <span>Medicamento</span>
+                <span>Unidades</span>
+                <span>Acción</span>
+              </div>
+
+              @for (detalle of detallesTratamiento; track detalle.medicamentoId) {
+                <div class="medication-table-row">
+                  <div class="medication-name">
+                    <strong>{{ detalle.nombre }}</strong>
+                  </div>
+
+                  <span class="units-value">{{ detalle.unidades }}</span>
+
+                  <button
+                    type="button"
+                    class="remove-button"
+                    [attr.aria-label]="'Eliminar ' + detalle.nombre"
+                    (click)="eliminarMedicamento(detalle.medicamentoId)">
+                    <svg viewBox="0 0 24 24" fill="none"
+                         xmlns="http://www.w3.org/2000/svg">
+                      <path d="M4 7H20M10 11V17M14 11V17M5 7L6 20H18L19 7M9 7V4H15V7"
+                            stroke="currentColor" stroke-width="1.7"
+                            stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                  </button>
+                </div>
+              }
+            </div>
+          </div>
+        } @else {
+          <div class="medication-empty">
+            Aún no has añadido medicamentos a los detalles del tratamiento.
+          </div>
+        }
+      </section>
+
+      @if (mensajeError) {
+        <div class="form-feedback error-feedback" role="alert">
+          {{ mensajeError }}
+        </div>
+      }
+
+      @if (mensajeExito) {
+        <div class="form-feedback success-feedback" role="status">
+          {{ mensajeExito }}
+        </div>
+      }
+
+      <footer class="form-footer">
+        <span class="required-note">
+          <span class="required">*</span> Campos obligatorios
+        </span>
+
+        <button
+          type="submit"
+          class="submit-button"
+          [disabled]="registrando || !paciente">
+          <svg viewBox="0 0 24 24" fill="none"
+               xmlns="http://www.w3.org/2000/svg">
+            <path d="M5 12.5L9.5 17L19 7.5"
+                  stroke="currentColor" stroke-width="2"
+                  stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+          {{ registrando ? 'Registrando...' : 'Registrar diagnóstico' }}
+        </button>
+      </footer>
+
+    </form>
+  </section>
+
+</section>

@@ -1,0 +1,227 @@
+<div class="billing-page-container">
+
+  <!-- Header Superior según Mockup 8 -->
+  <header class="billing-topbar">
+    <div class="brand-wrap">
+      <a routerLink="/dashboard" class="brand-title">
+        <span class="brand-name">Doc-Tooth</span>
+        <span class="brand-bar">|</span>
+      </a>
+      <span class="patient-header-info">Paciente: María García Pérez (CC: 1094.821.402)</span>
+    </div>
+
+    <div class="doctor-badge">
+      <span>Dr. Alex González | Odontología</span>
+    </div>
+  </header>
+
+  <!-- Pestañas -->
+  <nav class="billing-tabs-nav">
+    <a [routerLink]="['/historias-clinicas', patientId]" class="tab-link">Evolución Clínica</a>
+    <a class="tab-link disabled-tab">Odontograma</a>
+    <a [routerLink]="['/historias-clinicas', patientId, 'evaluacion']" class="tab-link">Evaluación</a>
+    <span class="tab-link active-tab">Facturación y Cobro</span>
+  </nav>
+
+  <main class="invoice-form-card">
+
+    <!-- 1. Datos del Adquirente / Cliente y Pago -->
+    <fieldset class="section-fieldset">
+      <legend class="section-legend">1. Datos del Adquirente / Cliente y Pago</legend>
+
+      <div class="fields-grid-3">
+        <div class="form-field">
+          <label>Nombre / Razón:</label>
+          <input type="text" [(ngModel)]="nombreRazon" class="form-input">
+        </div>
+
+        <div class="form-field">
+          <label>Documento / NIT:</label>
+          <input type="text" [(ngModel)]="documentoNit" class="form-input">
+        </div>
+
+        <div class="form-field">
+          <label>Fecha Emisión:</label>
+          <input type="date" [(ngModel)]="fechaEmision" class="form-input">
+        </div>
+      </div>
+
+      <div class="fields-grid-3" style="margin-top: 14px;">
+        <div class="form-field">
+          <label>Dirección:</label>
+          <input type="text" [(ngModel)]="direccion" class="form-input">
+        </div>
+
+        <div class="form-field">
+          <label>Método Pago:</label>
+          <select [(ngModel)]="metodoPago" class="form-select">
+            <option value="Tarjeta de Crédito">Tarjeta de Crédito</option>
+            <option value="Efectivo">Efectivo</option>
+            <option value="Transferencia Bancaria">Transferencia Bancaria</option>
+          </select>
+        </div>
+
+        <div class="form-field">
+          <label>Nro. Factura:</label>
+          <input type="text" [(ngModel)]="nroFactura" class="form-input readonly-input" readonly>
+        </div>
+      </div>
+    </fieldset>
+
+    <!-- 2. Detalle de Conceptos / Procedimientos a Facturar -->
+    <fieldset class="section-fieldset">
+      <legend class="section-legend">2. Detalle de Conceptos / Procedimientos a Facturar</legend>
+
+      <div class="table-responsive">
+        <table class="invoice-table">
+          <thead>
+            <tr>
+              <th>Código</th>
+              <th>Concepto / Procedimiento Odontológico</th>
+              <th>Cant</th>
+              <th>V. Unitario</th>
+              <th>Desc %</th>
+              <th>Subtotal</th>
+              <th>Acción</th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (item of items; track item.cupsCode; let i = $index) {
+              <tr>
+                <td class="code-cell">{{ item.cupsCode }}</td>
+                <td class="desc-cell">{{ item.description }}</td>
+                <td class="qty-cell">
+                  <input type="number" min="1" [(ngModel)]="item.quantity" class="inline-qty">
+                </td>
+                <td class="price-cell">${{ item.unitPrice | number:'1.0-0' }}</td>
+                <td class="desc-pct-cell">
+                  <input type="number" min="0" max="100" [(ngModel)]="item.discountPercent" class="inline-disc">%
+                </td>
+                <td class="subtotal-cell">
+                  <strong>${{ getItemSubtotal(item) | number:'1.0-0' }}</strong>
+                </td>
+                <td class="action-cell">
+                  <button type="button" class="btn-delete-row" (click)="eliminarItem(i)" title="Eliminar ítem">
+                    ✕
+                  </button>
+                </td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+
+      <div class="add-proc-row">
+        <button type="button" class="btn-add-proc" (click)="abrirModalAgregar()">
+          + Agregar Procedimiento
+        </button>
+      </div>
+    </fieldset>
+
+    <!-- 3. Totales y Finalización de Factura -->
+    <fieldset class="section-fieldset">
+      <legend class="section-legend">3. Totales y Finalización de Factura</legend>
+
+      <div class="totals-layout">
+
+        <!-- Observaciones -->
+        <div class="obs-box">
+          <label>Observaciones:</label>
+          <textarea
+            [(ngModel)]="observaciones"
+            rows="4"
+            class="obs-textarea"
+            placeholder="Anotaciones de garantía, condiciones o acuerdos...">
+          </textarea>
+        </div>
+
+        <!-- Tabla Resumen de Totales -->
+        <div class="totals-summary-box">
+          <div class="total-line">
+            <span class="total-label">Subtotal Bruto:</span>
+            <span class="total-value">${{ subtotalBruto | number:'1.0-0' }}</span>
+          </div>
+
+          <div class="total-line discount-line">
+            <span class="total-label">Descuento (10%):</span>
+            <span class="total-value">-${{ totalDescuento | number:'1.0-0' }}</span>
+          </div>
+
+          <div class="total-line">
+            <span class="total-label">IVA / Impuestos:</span>
+            <span class="total-value">$0 (Exento)</span>
+          </div>
+
+          <div class="total-final-row">
+            <span class="final-label">TOTAL A PAGAR:</span>
+            <span class="final-amount">${{ totalAPagar | number:'1.0-0' }}</span>
+          </div>
+        </div>
+
+      </div>
+    </fieldset>
+
+    <!-- Botones de Acción de Factura -->
+    <div class="invoice-bottom-buttons">
+      <button
+        type="button"
+        class="btn-emit-dian"
+        [disabled]="isSubmitting"
+        (click)="emitirFactura()">
+        {{ isSubmitting ? 'Emitiendo DIAN...' : 'Emitir Factura Electrónica (DIAN)' }}
+      </button>
+
+      <button type="button" class="btn-print-pre" (click)="imprimirPreFactura()">
+        Imprimir Pre-Factura
+      </button>
+
+      <button type="button" class="btn-cancel" (click)="cancelar()">
+        Cancelar
+      </button>
+    </div>
+
+  </main>
+
+  <!-- Modal para Agregar Procedimiento -->
+  @if (showAddModal) {
+    <div class="modal-backdrop" (click)="cerrarModalAgregar()">
+      <div class="modal-dialog" (click)="$event.stopPropagation()">
+        <h3>Agregar Procedimiento a Facturar</h3>
+
+        <div class="modal-fields">
+          <div class="form-field">
+            <label>Código CUPS:</label>
+            <input type="text" [(ngModel)]="newCups" class="form-input">
+          </div>
+
+          <div class="form-field">
+            <label>Concepto / Procedimiento:</label>
+            <input type="text" [(ngModel)]="newDesc" class="form-input">
+          </div>
+
+          <div class="form-field">
+            <label>Valor Unitario ($):</label>
+            <input type="number" [(ngModel)]="newPrice" class="form-input">
+          </div>
+
+          <div class="form-field">
+            <label>Cantidad:</label>
+            <input type="number" min="1" [(ngModel)]="newQty" class="form-input">
+          </div>
+
+          <div class="form-field">
+            <label>Descuento (%):</label>
+            <input type="number" min="0" max="100" [(ngModel)]="newDisc" class="form-input">
+          </div>
+        </div>
+
+        <div class="modal-actions">
+          <button type="button" class="btn-cancel" (click)="cerrarModalAgregar()">Cancelar</button>
+          <button type="button" class="btn-emit-dian" (click)="confirmarAgregar()">Agregar a Factura</button>
+        </div>
+      </div>
+    </div>
+  }
+
+</div>
+

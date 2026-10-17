@@ -1,0 +1,308 @@
+/* =========================================================
+   PALETA - FUNCTIONAL LIGHT BLUE GRADIENT
+
+   #5A85A9
+   #6D98BA
+   #80ABC9
+   #93BDD8
+   #A6D0E7
+   ========================================================= */
+
+
+/* =========================================================
+   BARRA PRINCIPAL
+   ========================================================= */
+
+.top-navbar {
+
+  position: fixed;
+
+  top: 0;
+  left: 0;
+
+  z-index: 1000;
+
+  width: 100%;
+  height: 72px;
+
+  background: transparent;
+
+  border-bottom: 1px solid rgba(255, 255, 255, 0.10);
+
+  transition:
+    background-color 0.25s ease,
+    box-shadow 0.25s ease;
+}
+
+
+/* =========================================================
+   CONTENEDOR
+   ========================================================= */
+
+.navbar-container {
+
+  width: min(1200px, 92%);
+
+  height: 100%;
+
+  margin: 0 auto;
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: space-between;
+}
+
+
+/* =========================================================
+   LOGO
+   ========================================================= */
+
+.brand {
+
+  display: flex;
+
+  align-items: center;
+
+  text-decoration: none;
+
+  transition:
+    opacity 0.2s ease,
+    transform 0.2s ease;
+}
+
+
+.brand:hover {
+
+  opacity: 0.88;
+
+  transform: translateY(-1px);
+}
+
+
+.brand-logo {
+
+  width: 60px;
+
+  height: auto;
+
+  display: block;
+}
+
+.logo-text {
+  display: flex;
+  flex-direction: column;
+  padding: 15px;
+
+  line-height: 1;
+  letter-spacing: 2px;
+}
+
+.logo-text strong {
+  font-size: 16px;
+}
+
+.logo-text span {
+  margin-top: 4px;
+
+  font-size: 11px;
+  letter-spacing: 3px;
+}
+
+
+/* =========================================================
+   NAVEGACIÓN
+   ========================================================= */
+
+.navigation {
+
+  display: flex;
+
+  align-items: center;
+
+  gap: 8px;
+}
+
+
+/* =========================================================
+   ENLACES
+   ========================================================= */
+
+.nav-link {
+
+  position: relative;
+
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+
+  min-height: 40px;
+
+  padding: 0 16px;
+
+  border-radius: 22px;
+
+  color: #ffffff;
+
+  font-size: 0.88rem;
+
+  font-weight: 500;
+
+  text-decoration: none;
+
+  white-space: nowrap;
+
+  transition:
+    background-color 0.2s ease,
+    color 0.2s ease,
+    transform 0.2s ease;
+}
+
+
+/* =========================================================
+   HOVER
+   ========================================================= */
+
+.nav-link:hover {
+
+  background-color: rgba(255, 255, 255, 0.15);
+
+  color: #ffffff;
+}
+
+
+/* =========================================================
+   ENLACE ACTIVO
+   ========================================================= */
+
+.nav-link.active {
+
+  background-color: rgba(255, 255, 255, 0.95);
+
+  color: #467185;
+
+  box-shadow:
+    0 4px 12px rgba(48, 91, 115, 0.12);
+}
+
+
+/* =========================================================
+   HOVER DEL ACTIVO
+   ========================================================= */
+
+.nav-link.active:hover {
+
+  background-color: #ffffff;
+
+  color: #305B73;
+
+  transform: translateY(-1px);
+}
+
+.top-navbar.light {
+  background-color: rgba(255, 255, 255, 0.92);
+
+  border-bottom:
+    1px solid rgba(90, 133, 169, 0.15);
+
+  box-shadow:
+    0 3px 15px rgba(48, 91, 115, 0.08);
+}
+
+.top-navbar.light .nav-link {
+  color: #467185;
+}
+
+.top-navbar.light .nav-link:hover {
+  background-color: #EAF4F9;
+  color: #305B73;
+}
+
+.top-navbar.light .nav-link.active {
+  background-color: #5A85A9;
+  color: #ffffff;
+}
+
+
+/* =========================================================
+   RESPONSIVE
+   ========================================================= */
+
+@media (max-width: 750px) {
+
+  .top-navbar {
+
+    height: 64px;
+  }
+
+
+  .navbar-container {
+
+    width: 94%;
+  }
+
+
+  .brand-logo {
+
+    width: 125px;
+  }
+
+
+  .navigation {
+
+    gap: 2px;
+  }
+
+
+  .nav-link {
+
+    padding: 0 10px;
+
+    font-size: 0.78rem;
+  }
+
+}
+
+
+@media (max-width: 560px) {
+
+  .brand-logo {
+
+    width: 105px;
+  }
+
+
+  .navigation {
+
+    gap: 0;
+  }
+
+
+  .nav-link {
+
+    padding: 0 7px;
+
+    font-size: 0.72rem;
+  }
+
+}
+
+
+@media (max-width: 450px) {
+
+  .brand-logo {
+
+    width: 90px;
+  }
+
+
+  .nav-link {
+
+    padding: 0 5px;
+
+    font-size: 0.68rem;
+  }
+
+}

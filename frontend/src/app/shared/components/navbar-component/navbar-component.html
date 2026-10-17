@@ -1,0 +1,72 @@
+<header class="top-navbar">
+
+  <div class="navbar-container">
+
+    <!-- =====================================================
+         LOGO
+         ===================================================== -->
+
+    <a
+      routerLink=""
+      class="brand"
+      aria-label="Ir a la página inicial"
+    >
+
+      <img
+        src="/logo.svg"
+        alt="Doc-Tooth"
+        class="brand-logo"
+      >
+
+      <div class="logo-text">
+        <strong>AGENDAS</strong>
+        <span>DOC-TOOTH</span>
+      </div>
+
+    </a>
+
+
+    <!-- =====================================================
+         NAVEGACIÓN
+         ===================================================== -->
+
+    <nav class="navigation">
+
+      <a
+        routerLink=""
+        routerLinkActive="active"
+        [routerLinkActiveOptions]="{ exact: true }"
+        class="nav-link"
+      >
+        Inicio
+      </a>
+
+      <a
+        routerLink="/acerca-de"
+        routerLinkActive="active"
+        class="nav-link"
+      >
+        Acerca de
+      </a>
+
+      <a
+        routerLink="/objetivos"
+        routerLinkActive="active"
+        class="nav-link"
+      >
+        Objetivos
+      </a>
+
+      <a
+        routerLink="/contacto"
+        routerLinkActive="active"
+        class="nav-link"
+      >
+        Contacto
+      </a>
+
+    </nav>
+
+  </div>
+
+</header>

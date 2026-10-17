@@ -1,0 +1,363 @@
+
+<section class="calendar-page">
+
+  <!-- Encabezado general -->
+  <header class="page-header">
+    <div>
+      <h1>Calendario de citas</h1>
+      <p>Organiza y consulta tu agenda odontológica.</p>
+    </div>
+
+    <button type="button" class="today-button" (click)="irAHoy()">
+      <svg viewBox="0 0 24 24" fill="none"
+           xmlns="http://www.w3.org/2000/svg">
+        <rect x="3" y="5" width="18" height="16" rx="2"
+              stroke="currentColor" stroke-width="1.8"/>
+        <path d="M8 3V7M16 3V7M3 10H21"
+              stroke="currentColor" stroke-width="1.8"
+              stroke-linecap="round"/>
+        <path d="M8 14L10 16L14 12"
+              stroke="currentColor" stroke-width="1.8"
+              stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+      Hoy
+    </button>
+  </header>
+
+  <!-- ================= VISTA MENSUAL ================= -->
+  @if (vistaActual === 'mes') {
+
+    <section class="calendar-card">
+
+      <div class="calendar-toolbar">
+        <div class="month-title">
+          <h2>{{ tituloMes }}</h2>
+          <p>Selecciona un día para consultar sus citas.</p>
+        </div>
+
+        <div class="month-navigation">
+          <button
+            type="button"
+            class="navigation-button"
+            aria-label="Mes anterior"
+            title="Mes anterior"
+            (click)="anteriorMes()">
+
+            <svg viewBox="0 0 24 24" fill="none"
+                 xmlns="http://www.w3.org/2000/svg">
+              <path d="M15 18L9 12L15 6"
+                    stroke="currentColor" stroke-width="2"
+                    stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </button>
+
+          <button
+            type="button"
+            class="navigation-button"
+            aria-label="Mes siguiente"
+            title="Mes siguiente"
+            (click)="siguienteMes()">
+
+            <svg viewBox="0 0 24 24" fill="none"
+                 xmlns="http://www.w3.org/2000/svg">
+              <path d="M9 18L15 12L9 6"
+                    stroke="currentColor" stroke-width="2"
+                    stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </button>
+        </div>
+      </div>
+
+      <!-- Leyenda -->
+      <div class="calendar-legend">
+        <span class="legend-item">
+          <span class="legend-dot legend-dot-appointments"></span>
+          Día con citas
+        </span>
+
+        <span class="legend-item">
+          <span class="legend-dot legend-dot-today"></span>
+          Hoy
+        </span>
+      </div>
+
+      <!-- Encabezados de los días -->
+      <div class="calendar-grid calendar-weekdays">
+        @for (dia of diasSemana; track dia) {
+          <div class="weekday">{{ dia }}</div>
+        }
+      </div>
+
+      <!-- Días del mes -->
+      <div class="calendar-grid calendar-days">
+        @for (dia of diasCalendario; track dia.clave) {
+          <button
+            type="button"
+            class="calendar-day"
+            [class.other-month]="!dia.perteneceAlMes"
+            [class.is-today]="dia.esHoy"
+            [class.has-appointments]="dia.cantidadCitas > 0"
+            [attr.aria-label]="
+              dia.numero + ' de ' +
+              meses[dia.fecha.getMonth()] +
+              ', ' + dia.cantidadCitas + ' citas'
+            "
+            (click)="seleccionarDia(dia)">
+
+            <span class="day-number">{{ dia.numero }}</span>
+
+            @if (dia.cantidadCitas > 0) {
+              <span class="day-appointments">
+                <span class="appointment-dot"></span>
+
+                <span class="appointment-count">
+                  {{ dia.cantidadCitas }}
+                  {{ dia.cantidadCitas === 1 ? 'cita' : 'citas' }}
+                </span>
+              </span>
+            }
+
+          </button>
+        }
+      </div>
+
+      <!-- Mensaje cuando no hay citas en el mes visible -->
+      @if (!hayCitasEnMes) {
+        <div class="month-empty-note">
+          <svg viewBox="0 0 24 24" fill="none"
+               xmlns="http://www.w3.org/2000/svg">
+            <circle cx="12" cy="12" r="9"
+                    stroke="currentColor" stroke-width="1.6"/>
+            <path d="M12 8V12M12 16H12.01"
+                  stroke="currentColor" stroke-width="1.8"
+                  stroke-linecap="round"/>
+          </svg>
+
+          No hay citas registradas para este mes.
+        </div>
+      }
+
+    </section>
+
+  }
+
+  <!-- ================= VISTA DIARIA ================= -->
+  @if (vistaActual === 'dia' && fechaSeleccionada) {
+
+    <section class="day-view">
+
+      <div class="day-view-header">
+
+        <button
+          type="button"
+          class="back-button"
+          (click)="volverAlMes()">
+
+          <svg viewBox="0 0 24 24" fill="none"
+               xmlns="http://www.w3.org/2000/svg">
+            <path d="M15 18L9 12L15 6"
+                  stroke="currentColor" stroke-width="1.8"
+                  stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+
+          Volver al calendario
+        </button>
+
+        <div class="day-heading">
+          <div>
+            <h2>{{ tituloFechaSeleccionada }}</h2>
+            <p>Agenda de atención del día seleccionado.</p>
+          </div>
+
+          <span class="day-total">
+            {{ citasDelDia.length }}
+            {{ citasDelDia.length === 1 ? 'cita' : 'citas' }}
+          </span>
+        </div>
+
+      </div>
+
+      <!-- Indicadores diarios -->
+      <div class="day-summary">
+
+        <article class="day-summary-card">
+          <span class="day-summary-label">Citas programadas</span>
+          <strong>{{ citasDelDia.length }}</strong>
+        </article>
+
+        <article class="day-summary-card">
+          <span class="day-summary-label">Por atender</span>
+          <strong>{{ citasPendientesDelDia }}</strong>
+        </article>
+
+        <article class="day-summary-card">
+          <span class="day-summary-label">Atendidas</span>
+          <strong>{{ pacientesAtendidosDelDia }}</strong>
+        </article>
+
+      </div>
+
+      <!-- Lista cronológica -->
+      <section class="agenda-card">
+
+        <div class="agenda-card-header">
+          <div>
+            <h3>Agenda del día</h3>
+            <p>Las citas se muestran ordenadas por hora.</p>
+          </div>
+        </div>
+
+        @if (citasDelDia.length > 0) {
+
+          <div class="agenda-list">
+
+            @for (cita of citasDelDia; track cita.id) {
+              <button
+                type="button"
+                class="appointment-item"
+                (click)="abrirDetalle(cita)">
+
+                <div class="appointment-time">
+                  <span class="time-indicator"></span>
+                  <strong>{{ cita.hora }}</strong>
+                </div>
+
+                <div class="appointment-main">
+                  <span class="appointment-patient">
+                    {{ cita.paciente }}
+                  </span>
+                </div>
+
+                <span
+                  class="status-badge"
+                  [ngClass]="obtenerClaseEstado(cita)">
+                  {{ cita.estado }}
+                </span>
+
+                <svg class="appointment-chevron"
+                     viewBox="0 0 24 24" fill="none"
+                     xmlns="http://www.w3.org/2000/svg">
+                  <path d="M9 18L15 12L9 6"
+                        stroke="currentColor" stroke-width="1.8"
+                        stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+
+              </button>
+            }
+
+          </div>
+
+        } @else {
+
+          <div class="day-empty-state">
+            <div class="empty-calendar-icon">
+              <svg viewBox="0 0 24 24" fill="none"
+                   xmlns="http://www.w3.org/2000/svg">
+                <rect x="3" y="5" width="18" height="16" rx="2"
+                      stroke="currentColor" stroke-width="1.6"/>
+                <path d="M8 3V7M16 3V7M3 10H21"
+                      stroke="currentColor" stroke-width="1.6"
+                      stroke-linecap="round"/>
+                <path d="M9 14H15"
+                      stroke="currentColor" stroke-width="1.6"
+                      stroke-linecap="round"/>
+              </svg>
+            </div>
+
+            <h3>No hay citas programadas para este día</h3>
+
+            <p>
+              Cuando tengas citas asignadas para esta fecha,
+              aparecerán aquí automáticamente.
+            </p>
+
+            <button
+              type="button"
+              class="empty-back-button"
+              (click)="volverAlMes()">
+              Volver al calendario
+            </button>
+          </div>
+
+        }
+
+      </section>
+
+    </section>
+
+  }
+
+  <!-- ================= DIÁLOGO DE DETALLES ================= -->
+  @if (citaDetalle) {
+
+    <div
+      class="modal-backdrop"
+      (click)="cerrarDetalle()">
+
+      <section
+        class="appointment-modal"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="appointment-modal-title"
+        (click)="detenerPropagacion($event)">
+
+        <header class="modal-header">
+          <div>
+            <span class="modal-eyebrow">DETALLES DE LA CITA</span>
+            <h2 id="appointment-modal-title">Información de la atención</h2>
+          </div>
+
+          <button
+            type="button"
+            class="modal-close"
+            aria-label="Cerrar detalles"
+            (click)="cerrarDetalle()">
+
+            <svg viewBox="0 0 24 24" fill="none"
+                 xmlns="http://www.w3.org/2000/svg">
+              <path d="M18 6L6 18M6 6L18 18"
+                    stroke="currentColor" stroke-width="1.8"
+                    stroke-linecap="round"/>
+            </svg>
+          </button>
+        </header>
+
+        <div class="modal-body">
+
+          <div class="detail-field">
+            <span>Paciente</span>
+            <strong>{{ citaDetalle.paciente }}</strong>
+          </div>
+
+          <div class="detail-row">
+
+            <div class="detail-field">
+              <span>Fecha</span>
+              <strong>{{ citaDetalle.fecha }}</strong>
+            </div>
+
+            <div class="detail-field">
+              <span>Hora</span>
+              <strong>{{ citaDetalle.hora }}</strong>
+            </div>
+
+          </div>
+
+        </div>
+
+        <footer class="modal-footer">
+          <button
+            type="button"
+            class="modal-close-button"
+            (click)="cerrarDetalle()">
+            Cerrar
+          </button>
+        </footer>
+
+      </section>
+
+    </div>
+
+  }
+
+</section>

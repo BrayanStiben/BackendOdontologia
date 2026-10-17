@@ -1,0 +1,407 @@
+:host {
+  display: block;
+  width: 100%;
+  color: #304D60;
+  background: #f7fafc;
+  min-height: 100vh;
+}
+
+.billing-page-container {
+  max-width: 1300px;
+  margin: 0 auto;
+  padding: 24px;
+  box-sizing: border-box;
+}
+
+.billing-topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-bottom: 18px;
+  border-bottom: 2px solid #e2e8f0;
+  margin-bottom: 18px;
+}
+
+.brand-wrap {
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+}
+
+.brand-title {
+  text-decoration: none;
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+}
+
+.brand-name {
+  font-size: 24px;
+  font-weight: 800;
+  color: #24485e;
+}
+
+.brand-bar {
+  font-size: 22px;
+  color: #5A85A9;
+}
+
+.patient-header-info {
+  font-size: 14.5px;
+  font-weight: 650;
+  color: #475569;
+}
+
+.doctor-badge {
+  font-size: 14px;
+  font-weight: 650;
+  color: #305B73;
+}
+
+/* Tabs */
+.billing-tabs-nav {
+  display: flex;
+  gap: 6px;
+  border-bottom: 2px solid #cbd5e1;
+  margin-bottom: 24px;
+}
+
+.tab-link {
+  text-decoration: none;
+  padding: 10px 18px;
+  font-size: 14px;
+  font-weight: 650;
+  color: #64748b;
+  border-bottom: 3px solid transparent;
+  cursor: pointer;
+}
+
+.active-tab {
+  color: #5A85A9 !important;
+  border-bottom-color: #5A85A9 !important;
+  font-weight: 700;
+}
+
+.disabled-tab {
+  color: #94a3b8;
+  cursor: not-allowed;
+}
+
+/* Formulario Principal */
+.invoice-form-card {
+  background: #ffffff;
+  border: 1.5px solid #cbd5e1;
+  border-radius: 10px;
+  padding: 28px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.section-fieldset {
+  border: 1.5px solid #cbd5e1;
+  border-radius: 8px;
+  padding: 20px 22px;
+  margin: 0;
+}
+
+.section-legend {
+  font-size: 14.5px;
+  font-weight: 750;
+  color: #24485e;
+  padding: 0 8px;
+}
+
+.fields-grid-3 {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 18px;
+}
+
+.form-field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.form-field label {
+  font-size: 12.5px;
+  font-weight: 650;
+  color: #475569;
+}
+
+.form-input,
+.form-select {
+  height: 40px;
+  padding: 0 12px;
+  border: 1.5px solid #cbd5e1;
+  border-radius: 6px;
+  font-size: 13.5px;
+  font-family: inherit;
+  color: #1e293b;
+  outline: none;
+  background: #ffffff;
+}
+
+.readonly-input {
+  background: #f8fafc;
+  font-weight: 700;
+  color: #334155;
+}
+
+/* Tabla de Procedimientos */
+.table-responsive {
+  overflow-x: auto;
+  margin-top: 10px;
+}
+
+.invoice-table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+}
+
+.invoice-table th {
+  background: #f8fafc;
+  padding: 12px 14px;
+  font-size: 12px;
+  font-weight: 750;
+  color: #475569;
+  border-bottom: 1px solid #cbd5e1;
+  text-transform: uppercase;
+}
+
+.invoice-table td {
+  padding: 14px;
+  font-size: 13.5px;
+  border-bottom: 1px solid #f1f5f9;
+  vertical-align: middle;
+}
+
+.code-cell {
+  font-weight: 650;
+  color: #0369a1;
+}
+
+.desc-cell {
+  color: #1e293b;
+}
+
+.inline-qty,
+.inline-disc {
+  width: 55px;
+  height: 32px;
+  text-align: center;
+  border: 1px solid #cbd5e1;
+  border-radius: 4px;
+  font-size: 13px;
+}
+
+.price-cell,
+.subtotal-cell {
+  font-variant-numeric: tabular-nums;
+}
+
+.btn-delete-row {
+  background: none;
+  border: none;
+  color: #dc2626;
+  font-size: 16px;
+  cursor: pointer;
+  padding: 4px 8px;
+}
+
+.btn-delete-row:hover {
+  background: #fee2e2;
+  border-radius: 4px;
+}
+
+.add-proc-row {
+  margin-top: 16px;
+}
+
+.btn-add-proc {
+  padding: 9px 18px;
+  background: #f1f5f9;
+  border: 1.5px solid #cbd5e1;
+  border-radius: 6px;
+  color: #334155;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.btn-add-proc:hover {
+  background: #e2e8f0;
+  border-color: #5A85A9;
+}
+
+/* Totales */
+.totals-layout {
+  display: grid;
+  grid-template-columns: 1fr 340px;
+  gap: 24px;
+  align-items: start;
+}
+
+.obs-box {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.obs-box label {
+  font-size: 12.5px;
+  font-weight: 650;
+  color: #475569;
+}
+
+.obs-textarea {
+  padding: 10px 12px;
+  border: 1.5px solid #cbd5e1;
+  border-radius: 6px;
+  font-size: 13px;
+  font-family: inherit;
+  color: #1e293b;
+  outline: none;
+}
+
+.totals-summary-box {
+  background: #f8fafc;
+  border: 1px solid #cbd5e1;
+  border-radius: 8px;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.total-line {
+  display: flex;
+  justify-content: space-between;
+  font-size: 13.5px;
+  color: #475569;
+}
+
+.discount-line {
+  color: #dc2626;
+}
+
+.total-final-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  border-top: 2px solid #cbd5e1;
+  padding-top: 12px;
+  margin-top: 4px;
+}
+
+.final-label {
+  font-size: 14px;
+  font-weight: 800;
+  color: #1e293b;
+}
+
+.final-amount {
+  font-size: 26px;
+  font-weight: 850;
+  color: #24485e;
+}
+
+/* Botones inferiores */
+.invoice-bottom-buttons {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 14px;
+  margin-top: 8px;
+}
+
+.btn-emit-dian {
+  padding: 12px 24px;
+  background: #5A85A9;
+  color: #ffffff;
+  border: none;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  box-shadow: 0 4px 10px rgba(90, 133, 169, 0.25);
+}
+
+.btn-emit-dian:hover:not(:disabled) {
+  background: #466e90;
+}
+
+.btn-print-pre {
+  padding: 12px 20px;
+  background: #ffffff;
+  color: #334155;
+  border: 1.5px solid #cbd5e1;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 650;
+  cursor: pointer;
+}
+
+.btn-cancel {
+  padding: 12px 20px;
+  background: #f1f5f9;
+  color: #64748b;
+  border: 1px solid #cbd5e1;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+/* Modal */
+.modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(15, 23, 42, 0.6);
+  backdrop-filter: blur(4px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  padding: 20px;
+}
+
+.modal-dialog {
+  background: #ffffff;
+  border-radius: 12px;
+  padding: 24px;
+  max-width: 480px;
+  width: 100%;
+}
+
+.modal-dialog h3 {
+  margin: 0 0 16px;
+  color: #24485e;
+  font-size: 17px;
+}
+
+.modal-fields {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.modal-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+@media (max-width: 900px) {
+  .fields-grid-3 {
+    grid-template-columns: 1fr;
+  }
+  .totals-layout {
+    grid-template-columns: 1fr;
+  }
+}
+

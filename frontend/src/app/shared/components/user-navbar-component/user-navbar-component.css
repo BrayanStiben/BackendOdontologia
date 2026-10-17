@@ -1,0 +1,309 @@
+/* =========================================================
+   USER NAVBAR
+   PALETA DOC-TOOTH
+
+   #305B73
+   #3E6985
+   #467185
+   #5A85A9
+   #6D98BA
+   #80ABC9
+   ========================================================= */
+
+
+/* =========================================================
+   BARRA SUPERIOR
+   ========================================================= */
+
+.user-navbar {
+
+  position: fixed;
+
+  display: flex;
+
+  top: 0;
+  left: 0;
+
+  z-index: 1000;
+
+  width: 100%;
+  height: 68px;
+
+  background-color: #305B73;
+
+  box-shadow:
+    0 4px 18px rgba(48, 91, 115, 0.18);
+}
+
+
+/* =========================================================
+   CONTENEDOR
+   ========================================================= */
+
+.user-navbar-container {
+
+  width: min(1000px, 92%);
+
+  height: 100%;
+
+  margin: 0 auto;
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: right;
+
+  padding-right: 15px;
+}
+
+.logo-container{
+  width: auto;
+  padding-left: 55px;
+}
+
+.logo-text {
+  display: flex;
+  flex-direction: column;
+  padding: 17px;
+  color: #ffffff;
+
+  line-height: 1;
+  letter-spacing: 2px;
+}
+
+.logo-text strong {
+  font-size: 16px;
+}
+
+/* =========================================================
+   INFORMACIÓN DEL USUARIO
+   ========================================================= */
+
+.user-info {
+
+  display: flex;
+
+  align-items: center;
+
+  gap: 11px;
+
+  min-width: 0;
+
+  padding-right: 30px;
+}
+
+
+/* =========================================================
+   ICONO DE USUARIO
+   ========================================================= */
+
+.user-icon {
+
+  width: 38px;
+  height: 38px;
+
+  flex-shrink: 0;
+
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 50%;
+
+  background-color: rgba(255, 255, 255, 0.14);
+
+  color: #A6D0E7;
+}
+
+
+.user-icon svg {
+
+  width: 22px;
+  height: 22px;
+
+  display: block;
+}
+
+
+/* =========================================================
+   NOMBRE
+   ========================================================= */
+
+.user-name {
+
+  max-width: 400px;
+
+  overflow: hidden;
+
+  text-overflow: ellipsis;
+
+  white-space: nowrap;
+
+  color: #ffffff;
+
+  font-size: 0.92rem;
+
+  font-weight: 500;
+}
+
+
+/* =========================================================
+   BOTÓN CERRAR SESIÓN
+   ========================================================= */
+
+.logout-button {
+
+  height: 40px;
+
+  display: inline-flex;
+
+  align-items: center;
+  justify-content: center;
+
+  gap: 8px;
+
+  padding:
+    0 15px;
+
+  border: 1px solid rgba(255, 255, 255, 0.10);
+
+  border-radius: 9px;
+
+  background-color: #C96B6B;
+
+  color: #ffffff;
+
+  font-family: inherit;
+
+  font-size: 0.84rem;
+
+  font-weight: 600;
+
+  cursor: pointer;
+
+  transition:
+    background-color 0.2s ease,
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+
+/* =========================================================
+   ICONO CERRAR SESIÓN
+   ========================================================= */
+
+.logout-icon {
+
+  width: 18px;
+  height: 18px;
+
+  flex-shrink: 0;
+}
+
+
+/* =========================================================
+   HOVER
+   ========================================================= */
+
+.logout-button:hover {
+
+  background-color: #B95D5D;
+
+  box-shadow:
+    0 4px 12px rgba(80, 30, 30, 0.18);
+
+  transform: translateY(-1px);
+}
+
+
+/* =========================================================
+   ACTIVE
+   ========================================================= */
+
+.logout-button:active {
+
+  transform: translateY(0);
+
+  box-shadow: none;
+}
+
+
+/* =========================================================
+   FOCUS
+   ========================================================= */
+
+.logout-button:focus-visible {
+
+  outline: 2px solid #A6D0E7;
+
+  outline-offset: 3px;
+}
+
+
+/* =========================================================
+   RESPONSIVE
+   ========================================================= */
+
+@media (max-width: 600px) {
+
+  .user-navbar {
+
+    height: 62px;
+  }
+
+
+  .user-navbar-container {
+
+    width: 94%;
+  }
+
+
+  .user-name {
+
+    max-width: 180px;
+
+    font-size: 0.84rem;
+  }
+
+
+  .user-icon {
+
+    width: 34px;
+    height: 34px;
+  }
+
+
+  .user-icon svg {
+
+    width: 20px;
+    height: 20px;
+  }
+
+
+  .logout-button {
+
+    width: 40px;
+    height: 40px;
+
+    padding: 0;
+  }
+
+
+  .logout-button span {
+
+    display: none;
+  }
+
+}
+
+
+@media (max-width: 380px) {
+
+  .user-name {
+
+    max-width: 130px;
+  }
+
+}
